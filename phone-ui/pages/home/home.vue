@@ -1,19 +1,239 @@
 <template>
   <view>
-    首页
+    <view class="map-container">
+      <map style="width: 100%; height: 92vh;" :show-location='true' ref="map" id="map" :latitude="latitude"
+        :longitude="longitude" :markers="marker" :scale="scale" @markertap="markertap">
+        <view class="view">
+
+          <view @click="refresh"
+            style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <image class="cover-image" src="/static/home/刷新.png"></image>
+            <view>刷新</view>
+          </view>
+
+          <view
+            style="margin-top: 20rpx; display: flex; align-items: center; justify-content: center; flex-direction: column;"
+            @click="onControltap">
+            <image class="cover-image" src="/static/home/定位.png"></image>
+            <view>定位</view>
+          </view>
+        </view>
+      </map>
+
+      <!-- 功能卡片 -->
+      <view class="multiFun" v-show="multiFunisShow">
+        <view class="line"></view>
+        <view style="margin: 20rpx;">
+          <u-search placeholder="请输入搜索关键词" v-model="keyword" @custom="query"></u-search>
+        </view>
+      </view>
+    </view>
+
+    <u-popup :show="show" @close="close">
+      <view class="container">
+        <view v-for="(item, index) in queryLocation" :key="index">
+          <view class='text-content' @click="doLocation(item.location)">{{item.title}}</view>
+        </view>
+      </view>
+    </u-popup>
   </view>
 </template>
 
 <script>
+  var QQMapWX = require('../../utils/qqmap-wx-jssdk.min.js');
+  var qqmapsdk;
+
   export default {
     data() {
       return {
-        
-      };
+        multiFunisShow: true,
+        show: false,
+        keyword: '',
+        latitude: 39.916527, //纬度
+        longitude: 116.397128, //经度
+        scale: 12, //缩放级别
+        marker: [{
+          id: 0,
+          latitude: 34.79977, //纬度
+          longitude: 113.66072, //经度
+          iconPath: '/static/home/Path.png', //显示的图标        
+          rotate: 0, // 旋转度数
+          width: 33, //宽
+          height: 33, //高
+          callout: { //自定义标记点上方的气泡窗口 点击有效  
+            content: 'dev1', //文本
+            color: '#ffffff', //文字颜色
+            fontSize: 14, //文本大小
+            borderRadius: 14, //边框圆角
+            padding: '6',
+            bgColor: '#406390', //背景颜色
+            display: 'ALWAYS', //常显
+          }
+        }],
+        queryLocation: []
+      }
+    },
+    onReady() {},
+    computed: {},
+    onLoad() {
+      // 实例化API核心类
+      qqmapsdk = new QQMapWX({
+        key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
+      });
+    },
+    onShow() {
+      this.getLocationApi()
+    },
+    methods: {
+      close() {
+        this.multiFunisShow = !this.multiFunisShow
+        this.show = !this.show
+        this.keyword = ''
+        this.queryLocation = []
+      },
+      //获取当前位置信息
+      getLocationApi() {
+        uni.getLocation({
+          type: 'gcj02', // 标准
+          success: res => {
+            this.latitude = res.latitude
+            this.longitude = res.longitude
+            console.log('当前位置的经度：' + res.longitude);
+            console.log('当前位置的纬度：' + res.latitude);
+          },
+          fail: () => {
+            uni.showToast({
+              title: '操作频繁，请稍后重试',
+              icon: 'none'
+            });
+          }
+        })
+      },
+
+      //地图搜索功能
+      query() {
+        //判断非空
+        if (!this.keyword) {
+          //为空
+          return
+        }
+        let loc = [this.latitude, this.longitude]
+        qqmapsdk.search({
+          keyword: this.keyword, //搜索关键词
+          location: loc.toString(), //设置周边搜索中心点
+          success: res => { //搜索成功后的回调
+            console.log(res.data);
+            if (res.data.length > 0) {
+              this.multiFunisShow = !this.multiFunisShow
+              this.show = !this.show
+              this.queryLocation = res.data
+            }else{
+              uni.showToast({
+                title: '什么也没搜索到',
+                icon: 'none'
+              });
+            }
+          },
+          fail: res => {
+            console.log(res);
+          }
+        })
+      },
+      
+      //点击搜索出来的位置跳转
+      doLocation(location) {
+        this.latitude = location.lat
+        this.longitude = location.lng
+        this.close()
+      },
+      //刷新按钮
+      refresh() {
+        this.getLocationApi()
+        console.log('刷新');
+        //后期这里可加入调用请求接口的方法，用来实现刷新
+      },
+
+      //定位按钮
+      onControltap() {
+        this.getLocationApi()
+        //moveToLocation将地图中心移动到当前定位点，需要配合map组件的show-location使用
+        uni.createMapContext("map", this).moveToLocation({
+          latitude: this.latitude,
+          longitude: this.longitude,
+        });
+      },
+
+      //地图点击事件
+      markertap(e) {
+        console.log("你点击了标记点", e.detail.markerId)
+      },
     }
   }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+  // 地图
+  .map-container {
+    margin-top: -40rpx;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50rpx 50rpx 0 0;
 
+    .view {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 42rpx 22rpx;
+      color: #4F575F;
+      font-weight: 400;
+      background-color: #fff;
+      background-size: 120rpx 120rpx;
+      background-position: center center;
+      position: absolute;
+      top: 150rpx;
+      right: 32rpx;
+      border-radius: 15rpx;
+    }
+
+    .cover-image {
+      display: inline-block;
+      width: 50rpx;
+      height: 50rpx;
+      margin-bottom: 12rpx;
+    }
+
+    .multiFun {
+      width: 100%;
+      border-radius: 25rpx;
+    }
+
+    .line {
+      width: 100%;
+      height: 1.5px;
+      background: #7e7e7e;
+      position: relative;
+      width: 125rpx;
+      display: block;
+      box-sizing: border-box;
+      left: 310rpx;
+      top: 15rpx;
+      height: 10rpx;
+      margin-bottom: 34rpx;
+    }
+  }
+
+  // 定义.container设置容器样式
+  .container {
+    padding: 10px 20px;
+    align-content: center;
+
+    // 定义.text-content设置文本样式
+    .text-content {
+      padding: 10px;
+      align-content: center;
+      border-bottom: 1rpx solid #F5F5F5;
+      background-color: #FFFFFF
+    }
+  }
 </style>
