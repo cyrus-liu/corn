@@ -92,6 +92,33 @@ vgg13after = [
 
 ]
 
+AlexNet = [
+    layers.experimental.preprocessing.Rescaling(1./255,input_shape=(HEIGHT,WIDTH,3)), # 数据归一化
+    layers.Conv2D(48,(11,11),strides=4,padding='same',activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D((3,3),strides=2,padding='same'),
+
+    layers.Conv2D(128, (5, 5), padding='same', activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D((3, 3), strides=2,padding='same'),
+
+    layers.Conv2D(192,(3,3),padding='same',activation='relu'),
+
+    layers.Conv2D(192, (3, 3), padding='same', activation='relu'),
+
+    layers.Conv2D(128,(3,3),padding='same',activation='relu'),
+    layers.MaxPool2D((3,3),strides=2),
+
+    layers.Flatten(),
+
+    layers.Dense(1024,activation='relu'),
+    layers.Dropout(0.25),
+
+    layers.Dense(1024,activation='relu'),
+    layers.Dropout(0.25),
+
+    layers.Dense(4,activation='softmax')
+]
 
 # (x,y), (x_test,y_test) = datasets.cifar10.load_data()
 
@@ -117,7 +144,7 @@ def main():
     model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join('./model/',current_time+'.hdf5'),monitor='val_accuracy',verbose=1
                                                 ,save_best_only=True)
     optimizer = optimizers.Adam(lr=1e-4)
-    vgg_net = models.Sequential(vgg13after)
+    vgg_net = models.Sequential(AlexNet)
     vgg_net.build(input_shape=[None,HEIGHT,WIDTH,3])
     vgg_net.compile(optimizer=optimizer,
               loss=tf.losses.SparseCategoricalCrossentropy(from_logits=False),
