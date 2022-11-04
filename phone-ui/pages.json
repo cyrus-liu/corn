@@ -1,0 +1,49 @@
+{
+  "easycom": {
+    "^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+  },
+  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/home/home",
+      "style": {
+        "navigationBarTitleText": "苞米豆"
+      }
+    }, {
+      "path": "pages/nearby/nearby",
+      "style": {
+        "navigationBarTitleText": "附近",
+        "enablePullDownRefresh": false
+      }
+
+    }, {
+      "path": "pages/user/user",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "enablePullDownRefresh": false
+      }
+
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "uniIdRouter": {},
+  "tabBar": {
+    "list": [{
+        "text": "首页",
+        "pagePath": "pages/home/home"
+      },
+      {
+        "text": "附近",
+        "pagePath": "pages/nearby/nearby"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/user/user"
+      }
+    ]
+  }
+}
