@@ -51,11 +51,20 @@
     /* 小程序特有相关 */
     "mp-weixin" : {
         "appid" : "wx985af205abfd4f57",
+        "requiredPrivateInfos" : [ "getLocation" ],
         "setting" : {
             "urlCheck" : false,
-            "minified" : true
+            "minified" : false,
+            "es6" : true,
+            "ignoreDevUnusedFiles": false,
+            "ignoreUploadUnusedFiles": false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置信息将用于小程序"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -69,5 +78,14 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH"
+                }
+            }
+        }
+    }
 }
