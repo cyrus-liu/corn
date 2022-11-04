@@ -58,6 +58,40 @@ vgg13 = [
 ]
 
 
+vgg13after = [
+    layers.experimental.preprocessing.Rescaling(1./255,input_shape=(HEIGHT,WIDTH,3)), # 数据归一化
+    layers.Conv2D(64, kernel_size=3, padding='same', activation='relu'),
+    layers.Conv2D(64, kernel_size=3, padding='same', activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D(pool_size=2, strides=2),
+
+    layers.Conv2D(128, kernel_size=3, padding='same', activation='relu'),
+    layers.Conv2D(128, kernel_size=3, padding='same', activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D(pool_size=2, strides=2),
+
+    layers.Conv2D(256, kernel_size=3, padding='same', activation='relu'),
+    layers.Conv2D(256, kernel_size=3, padding='same', activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D(pool_size=2, strides=2),
+
+    layers.Conv2D(512, kernel_size=3, padding='same', activation='relu'),
+    layers.Conv2D(512, kernel_size=3, padding='same', activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D(pool_size=2, strides=2),
+
+    layers.Conv2D(512, kernel_size=3, padding='same', activation='relu'),
+    layers.Conv2D(512, kernel_size=3, padding='same', activation='relu'),
+    layers.BatchNormalization(),
+    layers.MaxPool2D(pool_size=2, strides=2),
+
+    layers.Flatten(),
+    layers.Dense(256, activation=tf.nn.relu),
+    layers.Dense(128, activation=tf.nn.relu),
+    layers.Dense(5, activation=tf.nn.softmax)
+
+]
+
 
 # (x,y), (x_test,y_test) = datasets.cifar10.load_data()
 
@@ -83,7 +117,7 @@ def main():
     model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join('./model/',current_time+'.hdf5'),monitor='val_accuracy',verbose=1
                                                 ,save_best_only=True)
     optimizer = optimizers.Adam(lr=1e-4)
-    vgg_net = models.Sequential(vgg13)
+    vgg_net = models.Sequential(vgg13after)
     vgg_net.build(input_shape=[None,HEIGHT,WIDTH,3])
     vgg_net.compile(optimizer=optimizer,
               loss=tf.losses.SparseCategoricalCrossentropy(from_logits=False),
