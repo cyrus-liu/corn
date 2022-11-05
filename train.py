@@ -21,8 +21,10 @@ elif not os.path.exists('./dataset'):
 current_time = datetime.datetime.now().strftime('%Y%m%d-%H%H%S')
 log_dir = './logs/' + current_time
 dadtapath = r'./dataset/Rice Leaf Disease Images'
+
+Pre_training = False
 # 创建dataset
-BATCH_SIZE = 6
+BATCH_SIZE = 24
 HEIGHT = 227
 WIDTH = 227
 
@@ -138,19 +140,24 @@ tain_db = image_dataset_from_directory(directory=dadtapath,batch_size=BATCH_SIZE
                                        subset='training',seed=666,image_size=(HEIGHT,WIDTH))
 test_db = image_dataset_from_directory(directory=dadtapath,batch_size=BATCH_SIZE,validation_split=0.2,
                                        subset='validation',seed=666,image_size=(HEIGHT,WIDTH))
-
+class_names = tain_db.class_names # 数据集类型
+print(class_names)
 def main():
     tb_callback = TensorBoard(log_dir,update_freq=1)
     model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join('./model/',current_time+'.hdf5'),monitor='val_accuracy',verbose=1
                                                 ,save_best_only=True)
     optimizer = optimizers.Adam(lr=1e-4)
-    vgg_net = models.Sequential(AlexNet)
-    vgg_net.build(input_shape=[None,HEIGHT,WIDTH,3])
-    vgg_net.compile(optimizer=optimizer,
+    if not Pre_training:
+
+        alex_net = models.Sequential(AlexNet)
+        alex_net.build(input_shape=[None,HEIGHT,WIDTH,3])
+    else:
+        alex_net = models.load_model('./model/*.hdf5')
+    alex_net.compile(optimizer=optimizer,
               loss=tf.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['accuracy'])
-    print(vgg_net.summary())
-    vgg_net.fit(tain_db,epochs=100,validation_data=test_db,callbacks=[tb_callback,model_checkpoint_callback])
+    print(alex_net.summary())
+    history = alex_net.fit(tain_db,epochs=60,validation_data=test_db,callbacks=[tb_callback,model_checkpoint_callback])
 
 
 if __name__ == '__main__':
