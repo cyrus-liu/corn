@@ -8,7 +8,7 @@
     }, {
       "path": "pages/nearby/nearby",
       "style": {
-        "navigationBarTitleText": "附近",
+        "navigationBarTitleText": "取样记录",
         "enablePullDownRefresh": false
       }
 
@@ -34,7 +34,7 @@
         "pagePath": "pages/home/home"
       },
       {
-        "text": "附近",
+        "text": "记录",
         "pagePath": "pages/nearby/nearby"
       },
       {
