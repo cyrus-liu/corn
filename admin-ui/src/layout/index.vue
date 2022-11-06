@@ -2,13 +2,13 @@
   <el-container style="height: 100%; border: 1px solid #eee">
     <!--    左边菜单栏-->
     <el-aside width="auto">
-      <dzMenu/>
+      <LeftMenu/>
     </el-aside>
 
     <!--    导航栏-->
     <el-container :class="'main-container ' + isHide">
       <el-header height="84px" style="padding:0">
-        <dzNav :key="$route.fullPath"/>
+        <TotNav :key="$route.fullPath"/>
       </el-header>
 
       <!-- 内容-->
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import dzMenu from "@/layout/components/dzMenu";
-import dzNav from "@/layout/components/dzNav";
+import LeftMenu from "@/layout/components/LeftMenu";
+import TotNav from "@/layout/components/TotNav";
 
 export default {
   name: "layout",
-  components: {dzMenu, dzNav},
+  components: {LeftMenu, TotNav},
   data() {
 
     return {}
@@ -85,5 +85,6 @@ export default {
   width: 100%;
   overflow: hidden;
 }
+
 
 </style>

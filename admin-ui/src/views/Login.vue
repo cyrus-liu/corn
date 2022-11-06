@@ -38,6 +38,7 @@
 <script>
 
 import {login} from "@/api/login";
+import {getUserMenuList} from "@/api/menu";
 
 export default {
   name: "Login",
@@ -68,10 +69,9 @@ export default {
       const {data: res} = await login(this.user.username, this.user.password)
 
       //保存token
-      this.$store.commit('setToken', res.data)
+      this.$store.commit('setToken', res.data.token)
       //加载用户菜单
-      // getMenu()
-
+      getUserMenuList()
       this.$message.success("登录成功");
       await this.$router.push({path: "/"});
     },

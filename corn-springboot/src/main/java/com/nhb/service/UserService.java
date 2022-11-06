@@ -2,6 +2,7 @@ package com.nhb.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nhb.entity.User;
+import com.nhb.utils.Result;
 
 
 /**
@@ -12,4 +13,5 @@ import com.nhb.entity.User;
  */
 public interface UserService extends IService<User> {
 
+    Result getUserMenus();
 }

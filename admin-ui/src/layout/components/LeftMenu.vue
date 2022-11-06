@@ -11,20 +11,21 @@
     <template>
 
       <template v-for="route in this.$store.state.userMenuList">
-        <template  v-if="route.name && route.children">
-          <!-- 二级菜单 -->
+
+        <template v-if="route.parentId == 0 && route.menuType == 'M'">
+          <!-- 目录 -->
           <el-submenu :key="route.path" :index="route.path">
             <!-- 二级菜单标题-->
             <template slot="title">
               <i :class="route.icon"></i>
-              <span>{{ route.name }}</span>
+              <span>{{ route.menuName }}</span>
             </template>
 
             <!-- 二级菜单选项-->
             <template v-for="(item,index) in route.children">
-              <el-menu-item   :key="index" :index="item.path">
+              <el-menu-item :key="index" :index="item.path">
                 <i :class="item.icon"></i>
-                <span>{{ item.name }}</span>
+                <span>{{ item.menuName }}</span>
               </el-menu-item>
             </template>
 
@@ -32,10 +33,10 @@
         </template>
 
         <!-- 一级菜单 -->
-        <template v-else-if="route.children">
+        <template v-else-if="route.parentId === 0 && route.menuType === 'C'">
           <el-menu-item :index="route.path " :key="route.path">
             <i :class="route.children[0].icon"></i>
-            <span>{{ route.children[0].name }}</span>
+            <span>{{ route.children[0].menuName }}</span>
           </el-menu-item>
         </template>
 
@@ -47,7 +48,7 @@
 
 <script>
 export default {
-  name: "dzMenu",
+  name: "LeftMenu",
   data() {
     return {}
   },

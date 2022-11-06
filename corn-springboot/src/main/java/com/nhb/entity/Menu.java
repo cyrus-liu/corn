@@ -3,11 +3,16 @@ package com.nhb.entity;
 import java.util.Date;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.experimental.Accessors;
+
 /**
  * 菜单权限表(Menu)表实体类
  *
@@ -18,6 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 @TableName("menu")
 public class Menu{
     //菜单ID@TableId
@@ -51,12 +57,12 @@ public class Menu{
     private Long updateBy;
     //更新时间
     private Date updateTime;
-    //备注
-    private String remark;
-    
+
     private String delFlag;
 
-
+    //子菜单
+    @TableField(exist = false)
+    private List<Menu> children;
 
 }
 

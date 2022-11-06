@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-
 /**
  * 用户表(User)控制层
  * @author 大只
@@ -26,10 +24,20 @@ public class UserController {
     @Autowired
     private LoginService loginServiceImpl;
 
+    @Autowired
+    private UserService UserServiceImpl;
+
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public Result login(@RequestBody @Validated UserLoginDto userLoginDto) {
         return loginServiceImpl.login(userLoginDto);
+    }
+
+    //TODO 需要做鉴权登录之后才能访问
+    @ApiOperation(value = "获取用户拥有的菜单")
+    @GetMapping("/menus")
+    public Result getUserMenus(){
+        return UserServiceImpl.getUserMenus();
     }
 }
 

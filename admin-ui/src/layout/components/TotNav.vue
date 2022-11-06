@@ -28,7 +28,7 @@
                 {{ item.name }}
                 <i
                     class="el-icon-close"
-                    v-if="item.path !== '/'"
+                    v-if="item.path !== '/home'"
                     @click.stop="removeTab(item)"/>
          </span>
       </div>
@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: "dzNav",
+  name: "TotNav",
   data() {
     return {
       breadcrumbList: []
@@ -50,15 +50,10 @@ export default {
   },
   created() {
     //替换面包屑导航
-    let matched = this.$route.matched.filter(item => item.name);
-    const first = matched[0];
-    if (first && first.name !== "首页") {
-      matched = [{path: "/", name: "首页"}].concat(matched);
-    }
-    this.breadcrumbList = matched;
+    this.breadcrumbList = this.$route.matched.filter(item => item.name);
 
     //保存当前页标签
-    this.$store.commit("saveTab", this.$route);
+    this.$store.commit("setTab", this.$route);
   },
   methods: {
     //跳转标签
@@ -66,6 +61,7 @@ export default {
       if (tab.path === this.$route.path) return
       this.$router.push({path: tab.path});
     },
+
     //删除标签
     removeTab(tab) {
       this.$store.commit("removeTab", tab);
@@ -75,15 +71,17 @@ export default {
         this.$router.push({path: tabList[tabList.length - 1].path});
       }
     },
+
     //删除全部标签
     closeAllTab() {
       this.$store.commit("resetTab");
-      if (this.$route.path === "/") return
-      this.$router.push({path: "/"});
+      if (this.$route.path === "/home") return
+      this.$router.push({path: "/home"});
     },
+
     //修改左边菜单的闭合状态
     trigger() {
-      this.$store.commit("trigger");
+      this.$store.commit("setCollapse");
     }
   },
   computed: {

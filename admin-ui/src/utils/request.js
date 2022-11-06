@@ -15,6 +15,7 @@ service.interceptors.request.use(function (config) {
 
     //获取token，每次请求携带token
     let token = store.state.token
+
     if (token !== null) {
         config.headers.token = token
     }
