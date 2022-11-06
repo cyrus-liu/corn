@@ -7,27 +7,25 @@
     </view>
 
     <view class="d-card">
-      <u--form :model="recordInfo" ref="uForm">
+      <u--form :model="recordInfo" ref="recordFrom" :rules="rules">
         <u-form-item label="名称" prop="name">
           <u-input v-model="recordInfo.name" />
         </u-form-item>
 
         <u-form-item label="备注" prop="remark">
-          <u--textarea v-model="recordInfo.remark" placeholder="请输入内容" count></u--textarea>
+          <u--textarea v-model="recordInfo.remark" count></u--textarea>
         </u-form-item>
-        
-        <u-form-item label="识别图像" >
-          <u-upload :fileList="fileList" @afterRead="afterRead" @delete="deletePic" name="6" multiple :maxCount="1"
-            width="100%" height="150">
-            
+
+        <u-form-item label="识别图像">
+          <u-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple :maxCount="1"
+            width="550rpx" height="350rpx">
           </u-upload>
         </u-form-item>
-
-        
-
       </u--form>
-      <u-button type="primary" text="确定"></u-button>
+
+      <u-button type="primary" text="确定" @click="submit"></u-button>
     </view>
+
 
   </view>
 
@@ -38,11 +36,80 @@
     data() {
       return {
         recordInfo: {
-          name: '',
-          remark: '',
-          fileList: []
-        }
+          name: '', //标记昵称
+          remark: '', //标记备注
+        },
+        fileList1: [],
+        rules: {
+          name: [{
+              required: true,
+              message: '名称不得为空',
+              trigger: ['blur', 'change']
+            },
+            {
+              min: 3,
+              max: 20,
+              message: '长度在3-20个字符之间'
+            }
+          ],
+
+          remark: [{
+            required: true,
+            message: '备注不得为空',
+            trigger: ['blur', 'change']
+          }, {
+            min: 3,
+            max: 140,
+            message: '长度在3-140个字符之间'
+          }]
+        },
       };
+    },
+    methods: {
+      submit() {
+        this.$refs.recordFrom.validate().then(res => {
+          uni.$u.toast('校验通过')
+
+        }).catch(errors => {
+          uni.$u.toast('校验失败')
+
+        })
+      },
+      // 删除图片
+      deletePic(event) {
+        this[`fileList${event.name}`].splice(event.index, 1)
+      },
+      // 新增图片
+      async afterRead(event) {
+        // 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
+        let lists = [].concat(event.file)
+        let fileListLen = this[`fileList${event.name}`].length
+        lists.map((item) => {
+          this[`fileList${event.name}`].push({
+            ...item,
+            status: 'uploading',
+            message: '处理中'
+          })
+        })
+
+
+        //上传图片请求
+
+
+
+        //处理完成
+        let item = this[`fileList${event.name}`][fileListLen]
+        this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
+          status: 'success',
+          message: '',
+          url: ''
+        }))
+
+      },
+    },
+    onReady() {
+      //如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则。
+      this.$refs.recordFrom.setRules(this.rules)
     }
   }
 </script>
@@ -64,5 +131,6 @@
     border-radius: 24rpx;
     background-color: #fff;
     box-shadow: 0 8rpx 16rpx 0 rgba(0, 0, 0, 0.2), 0 12rpx 40rpx 0 rgba(0, 0, 0, 0.19);
+
   }
 </style>
