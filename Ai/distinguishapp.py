@@ -13,7 +13,7 @@ app.config[ 'JSON_AS_ASCII']= False
 
 global model
 
-model = load_model('./model/20221105-141453.hdf5')
+model = load_model('model/20221105-141453.hdf5')
 class_names = ['细菌性枯萎病', '瘟病', '褐斑病', '水稻东格鲁病毒病']
 
 
@@ -62,8 +62,8 @@ def image_classifier():
     return None
 
 if __name__ == '__main__':
-    model = load_model('./model/20221105-141453.hdf5')
-    app.run('0.0.0.0',8080,debug=True)
+    model = load_model('model/20221105-141453.hdf5')
+    app.run('0.0.0.0',8080,debug=False)
 
 
 

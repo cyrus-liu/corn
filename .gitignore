@@ -21,6 +21,6 @@ target/
 .mvn
 mvnw*
 # AI
-/dataset
-/model
+/Ai/dataset
+/Ai/model
 /__pycache__

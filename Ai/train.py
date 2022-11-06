@@ -11,12 +11,12 @@ from tensorflow.keras.utils import image_dataset_from_directory
 import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-if not os.path.exists('./logs'):
-    os.mkdir('./logs')
-elif not os.path.exists('./model'):
-    os.mkdir('./model')
-elif not os.path.exists('./dataset'):
-    os.mkdir('./dataset')
+if not os.path.exists('../logs'):
+    os.mkdir('../logs')
+elif not os.path.exists('model'):
+    os.mkdir('model')
+elif not os.path.exists('dataset'):
+    os.mkdir('dataset')
 # tf.random.set_seed(2345)
 current_time = datetime.datetime.now().strftime('%Y%m%d-%H%H%S')
 log_dir = './logs/' + current_time
@@ -144,8 +144,8 @@ class_names = tain_db.class_names # 数据集类型
 print(class_names)
 def main():
     tb_callback = TensorBoard(log_dir,update_freq=1)
-    model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join('./model/',current_time+'.hdf5'),monitor='val_accuracy',verbose=1
-                                                ,save_best_only=True)
+    model_checkpoint_callback = ModelCheckpoint(filepath=os.path.join('model/', current_time + '.hdf5'), monitor='val_accuracy', verbose=1
+                                                , save_best_only=True)
     optimizer = optimizers.Adam(lr=1e-4)
     if not Pre_training:
 
