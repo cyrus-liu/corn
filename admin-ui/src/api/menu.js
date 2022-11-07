@@ -81,10 +81,46 @@ export const loadView = view => {
 };
 
 //获取菜单数据
-export function getMenuList(keywords){
+export function getMenuList(keywords) {
     return request({
         url: '/menu/list',
         method: 'get',
         params: keywords
+    })
+}
+
+//根据id查询单个菜单
+export function getMenuBy(id) {
+    return request({
+        url: '/menu',
+        method: 'get',
+        params: id
+    })
+}
+
+//新增菜单
+export function addMenu(data) {
+    return request({
+        url: '/menu',
+        method: 'post',
+        data: data
+    })
+}
+
+//修改菜单
+export function updateMenu(data) {
+    return request({
+        url: '/menu',
+        method: 'put',
+        data: data
+    })
+}
+
+//删除菜单
+export function deleteMenu(id) {
+    return request({
+        url: '/menu',
+        method: 'delete',
+        params: id
     })
 }

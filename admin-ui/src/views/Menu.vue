@@ -41,10 +41,10 @@
         style="width: 100%">
 
       <!-- 菜单名称 -->
-      <el-table-column prop="menuName" label="菜单名称" width="120"/>
+      <el-table-column prop="menuName" label="菜单名称"/>
 
       <!-- 图标-->
-      <el-table-column prop="icon" label="图标" align="center" >
+      <el-table-column prop="icon" label="图标" align="center">
         <template slot-scope="scope ">
           <svg-icon :icon-class="scope.row.icon" v-if="scope.row.icon" style="width: 20px; height: 20px"/>
           <span v-else>-</span>
@@ -64,21 +64,21 @@
       <el-table-column prop="orderNum" label="排序" align="center"/>
 
       <!-- 权限标识-->
-      <el-table-column prop="perms" label="权限标识" align="center" >
+      <el-table-column prop="perms" label="权限标识" align="center">
         <template slot-scope="scope">
           {{ scope.row.perms ? scope.row.perms : '-' }}
         </template>
       </el-table-column>
 
       <!-- 路由地址-->
-      <el-table-column prop="path" label="路由地址" align="center" >
+      <el-table-column prop="path" label="路由地址" align="center">
         <template slot-scope="scope">
           {{ scope.row.path ? scope.row.path : '-' }}
         </template>
       </el-table-column>
 
       <!-- 组件路径-->
-      <el-table-column prop="component" label="组件地址" align="center" >
+      <el-table-column prop="component" label="组件地址" align="center">
         <template slot-scope="scope">
           {{ scope.row.component ? scope.row.component : '-' }}
         </template>
@@ -88,16 +88,16 @@
       <el-table-column prop="createTime" label="创建时间" align="center"/>
 
       <!-- 操作-->
-      <el-table-column label="操作" align="center" >
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="updateMenu">
+          <el-button type="text" @click="updateMenu(scope.row)">
             修改
           </el-button>
 
           <el-popconfirm
               title="确定删除吗？"
               style="margin-left:10px"
-              @confirm="deleteMenu">
+              @confirm="deleteMenu(scope.row)">
             <el-button type="text" slot="reference" style="color: red">
               删除
             </el-button>
@@ -233,7 +233,7 @@
 </template>
 
 <script>
-import {getMenuList} from "@/api/menu";
+import {addMenu, deleteMenu, getMenuBy, getMenuList, updateMenu} from "@/api/menu";
 import {createTree} from "@/utils/createTree";
 import TreeSelect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -289,6 +289,7 @@ export default {
         this.menuTableData = createTree(res.data);
       }
     },
+
     getIcons() {
       const req = require.context('@/assets/icons/svg', false, /\.svg$/)
       const requireAll = requireContext => requireContext.keys()
@@ -298,15 +299,13 @@ export default {
       })
       return arr
     },
-    // 选择图标
-    selected(name) {
-      this.form.icon = name
-    },
+
     // 取消按钮
     cancel() {
       this.open = false
       this.reset()
     },
+
     //转换菜单数据结构
     normalizer(node) {
       if (node.children && !node.children.length) {
@@ -321,7 +320,6 @@ export default {
 
     //单选框数据改变触发
     menuTypeChange(val) {
-      console.log(val)
       if (val == 'M') {
         this.form.component = null
         this.form.perms = null
@@ -341,7 +339,6 @@ export default {
 
     // 表单重置
     reset() {
-      console.log('重置')
       this.form = {
         id: null,
         parentId: 0,
@@ -361,7 +358,6 @@ export default {
 
     //新增菜单
     addMenu() {
-      console.log('新增菜单')
       this.reset()
       this.getTreeSelect()
       this.form.parentId = 0
@@ -371,7 +367,6 @@ export default {
     //查询菜单下拉树结构
     async getTreeSelect() {
       const {data: res} = await getMenuList()
-      console.log(res.data)
       this.menuOptions = []
       const menu = {id: 0, menuName: '主类目', children: []}
       menu.children = createTree(res.data, 'id')
@@ -379,25 +374,62 @@ export default {
     },
 
     //修改菜单
-    updateMenu() {
-      console.log('修改菜单')
+    async updateMenu(row) {
+      this.$nextTick(() => {
+        this.reset()
+      })
+      await this.getTreeSelect()
+      const {data: res} = await getMenuBy({id: row.id})
+      this.form = res.data
+      this.open = true
+      this.title = '修改菜单'
     },
 
     //删除菜单
-    deleteMenu() {
-      console.log('删除菜单')
+    async deleteMenu(row) {
+      if (row.children && row.children.length > 0) {
+        this.$notify.error({
+          title: '错误',
+          message: '存在子菜单，不得删除'
+        });
+        return
+      }
+
+      await deleteMenu({id: row.id})
+      this.$notify({
+        title: '成功',
+        message: '删除菜单成功',
+        type: 'success'
+      });
+      await this.getMenus()
     },
 
     //提交表单
     submitForm() {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate(async valid => {
         if (valid) {
           if (this.form.id !== null) {
             //修改
+            await updateMenu(this.form)
+            this.$notify({
+              title: '成功',
+              message: '修改菜单成功',
+              type: 'success'
+            });
+
+            this.open = false
+            await this.getMenus()
           } else {
             //新增
-            console.log('新增')
-            console.log(this.form);
+            await addMenu(this.form)
+            this.$notify({
+              title: '成功',
+              message: '新增菜单成功',
+              type: 'success'
+            });
+
+            this.open = false
+            await this.getMenus()
           }
         }
       })
@@ -405,10 +437,11 @@ export default {
 
     //清空表单
     resetForm(formName) {
-      this.$nextTick(() => {
-        this.$refs[formName].resetFields();
-      })
-
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs[formName].resetFields();
+        })
+      }
     }
   }
 }

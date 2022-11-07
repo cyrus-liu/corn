@@ -32,8 +32,9 @@ service.interceptors.response.use(config => {
 
     if(config.data.code !== 200){
         Notification.error({
-            title: config.data.msg
-        })
+            title: '错误',
+            message: config.data.msg
+        });
         return Promise.reject('error')
     }
 
