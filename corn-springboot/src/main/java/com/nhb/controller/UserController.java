@@ -22,22 +22,22 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private LoginService loginServiceImpl;
+    private LoginService loginService;
 
     @Autowired
-    private UserService UserServiceImpl;
+    private UserService userService;
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public Result login(@RequestBody @Validated UserLoginDto userLoginDto) {
-        return loginServiceImpl.login(userLoginDto);
+        return loginService.login(userLoginDto);
     }
 
     //TODO 需要做鉴权登录之后才能访问
     @ApiOperation(value = "获取用户拥有的菜单")
     @GetMapping("/menus")
     public Result getUserMenus(){
-        return UserServiceImpl.getUserMenus();
+        return userService.getUserMenus();
     }
 }
 

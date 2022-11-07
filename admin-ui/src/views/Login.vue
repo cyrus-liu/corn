@@ -73,7 +73,7 @@ export default {
       //加载用户菜单
       getUserMenuList()
       this.$message.success("登录成功");
-      await this.$router.push({path: "/"});
+      await this.$router.push({path: "/home"});
     },
 
     //表单校验

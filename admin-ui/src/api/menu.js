@@ -79,3 +79,12 @@ export function getUserMenuList() {
 export const loadView = view => {
     return resolve => require([`@/views${view}.vue`], resolve);
 };
+
+//获取菜单数据
+export function getMenuList(keywords){
+    return request({
+        url: '/menu/list',
+        method: 'get',
+        params: keywords
+    })
+}

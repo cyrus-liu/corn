@@ -17,14 +17,14 @@
           <el-submenu :key="route.path" :index="route.path">
             <!-- 二级菜单标题-->
             <template slot="title">
-              <i :class="route.icon"></i>
+              <svg-icon :icon-class="route.icon" style="margin-right: 10px"/>
               <span>{{ route.menuName }}</span>
             </template>
 
             <!-- 二级菜单选项-->
             <template v-for="(item,index) in route.children">
               <el-menu-item :key="index" :index="item.path">
-                <i :class="item.icon"></i>
+                <svg-icon :icon-class="item.icon" style="margin-right: 10px"/>
                 <span>{{ item.menuName }}</span>
               </el-menu-item>
             </template>
@@ -35,7 +35,7 @@
         <!-- 一级菜单 -->
         <template v-else-if="route.parentId === 0 && route.menuType === 'C'">
           <el-menu-item :index="route.path " :key="route.path">
-            <i :class="route.children[0].icon"></i>
+            <svg-icon :icon-class="route.children[0].icon" style="margin-right: 10px"/>
             <span>{{ route.children[0].menuName }}</span>
           </el-menu-item>
         </template>
