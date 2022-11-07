@@ -1,0 +1,5 @@
+flask==2.2.2
+tensorflow==2.7.0
+numpy
+Pillow
+gevent
