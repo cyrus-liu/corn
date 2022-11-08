@@ -84,6 +84,15 @@
         </template>
       </el-table-column>
 
+      <!-- 菜单状态-->
+      <el-table-column prop="status" label="状态" width="80">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status==0" type="success">正常</el-tag>
+          <el-tag v-if="scope.row.status==1" type="danger">停用</el-tag>
+        </template>
+      </el-table-column>
+
+
       <!-- 创建时间-->
       <el-table-column prop="createTime" label="创建时间" align="center"/>
 
@@ -193,20 +202,6 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="12">
-            <el-form-item v-if="form.menuType != 'F'">
-              <span slot="label">
-                <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
-                  <i class="el-icon-question"/>
-                </el-tooltip>
-                显示状态
-              </span>
-              <el-radio-group v-model="form.visible">
-                <el-radio :key="'0'" :label="'0'">显示</el-radio>
-                <el-radio :key="'1'" :label="'1'">隐藏</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item v-if="form.menuType != 'F'">
               <span slot="label">
@@ -332,7 +327,6 @@ export default {
         this.form.path = null
         this.form.component = null
         this.form.icon = null
-        this.form.visible = null
         this.form.status = null
       }
     },
@@ -350,7 +344,6 @@ export default {
         menuType: 'M',
         orderNum: 0,
         isCache: '0',
-        visible: '0',
         status: '0'
       }
       this.resetForm('form')
