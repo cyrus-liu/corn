@@ -67,5 +67,13 @@ public class MenuController {
         }
         return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
+
+    @ApiOperation("根据角色id查询拥护的菜单")
+    @GetMapping("/role/ids")
+    public Result roleMenuIds(Long id) {
+        return menuService.selectRoleMenuIds(id);
+    }
+
+
 }
 

@@ -41,7 +41,7 @@
         style="width: 100%">
 
       <!-- 菜单名称 -->
-      <el-table-column prop="menuName" label="菜单名称"/>
+      <el-table-column prop="menuName" :show-overflow-tooltip="true" label="菜单名称"/>
 
       <!-- 图标-->
       <el-table-column prop="icon" label="图标" align="center">
@@ -60,34 +60,34 @@
         </template>
       </el-table-column>
 
-      <!-- 排序-->
       <el-table-column prop="orderNum" label="排序" align="center"/>
 
-      <!-- 权限标识-->
       <el-table-column prop="perms" label="权限标识" align="center">
         <template slot-scope="scope">
           {{ scope.row.perms ? scope.row.perms : '-' }}
         </template>
       </el-table-column>
 
-      <!-- 路由地址-->
       <el-table-column prop="path" label="路由地址" align="center">
         <template slot-scope="scope">
           {{ scope.row.path ? scope.row.path : '-' }}
         </template>
       </el-table-column>
 
-      <!-- 组件路径-->
       <el-table-column prop="component" label="组件地址" align="center">
         <template slot-scope="scope">
           {{ scope.row.component ? scope.row.component : '-' }}
         </template>
       </el-table-column>
 
-      <!-- 创建时间-->
-      <el-table-column prop="createTime" label="创建时间" align="center"/>
+      <el-table-column prop="status" label="状态" width="80">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status==0" type="success">正常</el-tag>
+          <el-tag v-if="scope.row.status==1" type="danger">停用</el-tag>
+        </template>
+      </el-table-column>
 
-      <!-- 操作-->
+      <el-table-column prop="createTime" label="创建时间" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="updateMenu(scope.row)">
@@ -193,20 +193,6 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="12">
-            <el-form-item v-if="form.menuType != 'F'">
-              <span slot="label">
-                <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
-                  <i class="el-icon-question"/>
-                </el-tooltip>
-                显示状态
-              </span>
-              <el-radio-group v-model="form.visible">
-                <el-radio :key="'0'" :label="'0'">显示</el-radio>
-                <el-radio :key="'1'" :label="'1'">隐藏</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
           <el-col :span="12">
             <el-form-item v-if="form.menuType != 'F'">
               <span slot="label">
@@ -332,7 +318,6 @@ export default {
         this.form.path = null
         this.form.component = null
         this.form.icon = null
-        this.form.visible = null
         this.form.status = null
       }
     },
@@ -350,7 +335,6 @@ export default {
         menuType: 'M',
         orderNum: 0,
         isCache: '0',
-        visible: '0',
         status: '0'
       }
       this.resetForm('form')

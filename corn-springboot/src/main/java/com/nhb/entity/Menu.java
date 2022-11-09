@@ -27,7 +27,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("menu")
 public class Menu{
-    //菜单ID@TableId
+    //菜单ID
+    @TableId
     private Long id;
 
     //菜单名称
@@ -42,8 +43,6 @@ public class Menu{
     private String component;
     //菜单类型（M目录 C菜单 F按钮）
     private String menuType;
-    //菜单状态（0显示 1隐藏）
-    private String visible;
     //菜单状态（0正常 1停用）
     private String status;
     //权限标识
