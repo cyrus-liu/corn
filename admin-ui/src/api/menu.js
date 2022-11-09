@@ -124,3 +124,12 @@ export function deleteMenu(id) {
         params: id
     })
 }
+
+//根据角色id查询拥护的菜单
+export function getRoleMenuIds(id) {
+    return request({
+        url: '/menu/role/ids',
+        method: 'get',
+        params: id
+    })
+}

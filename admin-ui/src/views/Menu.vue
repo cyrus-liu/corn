@@ -41,7 +41,7 @@
         style="width: 100%">
 
       <!-- 菜单名称 -->
-      <el-table-column prop="menuName" label="菜单名称"/>
+      <el-table-column prop="menuName" :show-overflow-tooltip="true" label="菜单名称"/>
 
       <!-- 图标-->
       <el-table-column prop="icon" label="图标" align="center">
@@ -60,31 +60,26 @@
         </template>
       </el-table-column>
 
-      <!-- 排序-->
       <el-table-column prop="orderNum" label="排序" align="center"/>
 
-      <!-- 权限标识-->
       <el-table-column prop="perms" label="权限标识" align="center">
         <template slot-scope="scope">
           {{ scope.row.perms ? scope.row.perms : '-' }}
         </template>
       </el-table-column>
 
-      <!-- 路由地址-->
       <el-table-column prop="path" label="路由地址" align="center">
         <template slot-scope="scope">
           {{ scope.row.path ? scope.row.path : '-' }}
         </template>
       </el-table-column>
 
-      <!-- 组件路径-->
       <el-table-column prop="component" label="组件地址" align="center">
         <template slot-scope="scope">
           {{ scope.row.component ? scope.row.component : '-' }}
         </template>
       </el-table-column>
 
-      <!-- 菜单状态-->
       <el-table-column prop="status" label="状态" width="80">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status==0" type="success">正常</el-tag>
@@ -92,11 +87,7 @@
         </template>
       </el-table-column>
 
-
-      <!-- 创建时间-->
       <el-table-column prop="createTime" label="创建时间" align="center"/>
-
-      <!-- 操作-->
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="updateMenu(scope.row)">

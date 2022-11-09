@@ -2,6 +2,8 @@ package com.nhb.entity;
 
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("role_menu")
 public class RoleMenu {
 
-    //角色ID
+    //角色ID INPUT:insert 前自行 set 主键值
+    @TableId(value = "role_id", type = IdType.INPUT)
     private Long roleId;
     //菜单ID
     private Long menuId;

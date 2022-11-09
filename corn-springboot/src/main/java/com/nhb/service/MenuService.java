@@ -14,4 +14,6 @@ import com.nhb.utils.Result;
 public interface MenuService extends IService<Menu> {
 
     Result selectMenuPage(String keywords);
+
+    Result selectRoleMenuIds(Long id);
 }

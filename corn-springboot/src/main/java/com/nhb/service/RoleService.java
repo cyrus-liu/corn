@@ -1,7 +1,10 @@
 package com.nhb.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nhb.dto.AddRoleDto;
+import com.nhb.dto.UpdateRoleDto;
 import com.nhb.entity.Role;
+import com.nhb.utils.Result;
 
 
 /**
@@ -12,4 +15,9 @@ import com.nhb.entity.Role;
  */
 public interface RoleService extends IService<Role> {
 
+    Result roleList(Integer pageNum, Integer pageSize, String keywords);
+
+    Result addRole(AddRoleDto addRoleDto);
+
+    Result updateRole(UpdateRoleDto updateRoleDto);
 }

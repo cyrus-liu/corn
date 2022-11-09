@@ -27,7 +27,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("menu")
 public class Menu{
-    //菜单ID@TableId
+    //菜单ID
+    @TableId
     private Long id;
 
     //菜单名称

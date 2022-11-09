@@ -30,4 +30,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<Menu> list = list(queryWrapper);
         return Result.okResult(list);
     }
+
+    @Override
+    public Result selectRoleMenuIds(Long id) {
+       List<Long> roleMenuIds = getBaseMapper().selectRoleMenuList(id);
+       return Result.okResult(roleMenuIds);
+    }
 }
