@@ -7,7 +7,7 @@
           type="primary"
           size="small"
           icon="el-icon-plus"
-          @click="addMenu">
+          @click="handleAdd">
         新增菜单
       </el-button>
 
@@ -90,14 +90,14 @@
       <el-table-column prop="createTime" label="创建时间" align="center"/>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="text" @click="updateMenu(scope.row)">
+          <el-button type="text" @click="handleUpdate(scope.row)">
             修改
           </el-button>
 
           <el-popconfirm
               title="确定删除吗？"
               style="margin-left:10px"
-              @confirm="deleteMenu(scope.row)">
+              @confirm="handleDelete(scope.row)">
             <el-button type="text" slot="reference" style="color: red">
               删除
             </el-button>
@@ -219,7 +219,16 @@
 </template>
 
 <script>
-import {addMenu, deleteMenu, getMenuBy, getMenuList, updateMenu} from "@/api/menu";
+import {
+  handleAdd,
+  handleDelete,
+  getMenuBy,
+  getMenuList,
+  handleUpdate,
+  addMenu,
+  updateMenu,
+  deleteMenu
+} from "@/api/menu";
 import {createTree} from "@/utils/createTree";
 import TreeSelect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -341,7 +350,7 @@ export default {
     },
 
     //新增菜单
-    addMenu() {
+    handleAdd() {
       this.reset()
       this.getTreeSelect()
       this.form.parentId = 0
@@ -358,7 +367,7 @@ export default {
     },
 
     //修改菜单
-    async updateMenu(row) {
+    async handleUpdate(row) {
       this.$nextTick(() => {
         this.reset()
       })
@@ -370,7 +379,7 @@ export default {
     },
 
     //删除菜单
-    async deleteMenu(row) {
+    async handleDelete(row) {
       if (row.children && row.children.length > 0) {
         this.$notify.error({
           title: '错误',
