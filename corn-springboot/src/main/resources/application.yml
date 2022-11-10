@@ -32,6 +32,20 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 5MB
+  qcloud:
+    #API密钥secretId
+    secretId: AKIDjLkyznNksmSt41kEuMaYJp8C2d09EG4e
+    #API密钥secretKey
+    secretKey: NWQ8aonY5Pr55qNfjZBXeWAxVpwoQozw
+    #存储桶所属地域
+    region: ap-guangzhou
+    #存储桶空间名称
+    bucketName: corn-1306784580
+    #存储桶访问域名
+    url: https://corn-1306784580.cos.ap-guangzhou.myqcloud.com
+    #上传文件前缀路径(eg:/images/)
+    prefix: /images/
+
 
 mybatis-plus:
   configuration:
@@ -61,3 +75,14 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: false
+
+
+cos:
+  baseUrl: fxxxxxa-1xxxxx1.cos.ap-shanghai.myqcloud.com
+  accessKey: AKIDjLkyznNksmSt41kEuMaYJp8C2d09EG4e
+  secretKey: NWQ8aonY5Pr55qNfjZBXeWAxVpwoQozw
+  bucket: ap-guangzhou
+  bucketName: corn-1306784580
+  path: https://corn-1306784580.cos.ap-guangzhou.myqcloud.com
+  qianzui: /files
+

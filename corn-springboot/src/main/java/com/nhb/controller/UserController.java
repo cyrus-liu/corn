@@ -1,7 +1,6 @@
 package com.nhb.controller;
 
 import com.nhb.dto.UserLoginDto;
-import com.nhb.entity.User;
 import com.nhb.service.LoginService;
 import com.nhb.service.UserService;
 import com.nhb.utils.Result;

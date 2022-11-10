@@ -52,6 +52,8 @@
         latitude: 39.916527, //纬度
         longitude: 116.397128, //经度
         scale: 12, //缩放级别
+
+
         marker: [{
           id: 0,
           latitude: 34.79977, //纬度
@@ -60,15 +62,6 @@
           rotate: 0, // 旋转度数
           width: 33, //宽
           height: 33, //高
-          callout: { //自定义标记点上方的气泡窗口 点击有效  
-            content: 'dev1', //文本
-            color: '#ffffff', //文字颜色
-            fontSize: 14, //文本大小
-            borderRadius: 14, //边框圆角
-            padding: '6',
-            bgColor: '#406390', //背景颜色
-            display: 'ALWAYS', //常显
-          }
         }],
         queryLocation: []
       }
@@ -127,7 +120,7 @@
               this.multiFunisShow = !this.multiFunisShow
               this.show = !this.show
               this.queryLocation = res.data
-            }else{
+            } else {
               uni.showToast({
                 title: '什么也没搜索到',
                 icon: 'none'
@@ -139,7 +132,7 @@
           }
         })
       },
-      
+
       //点击搜索出来的位置跳转
       doLocation(location) {
         this.latitude = location.lat
