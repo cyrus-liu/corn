@@ -79,6 +79,7 @@
       deletePic(event) {
         this[`fileList${event.name}`].splice(event.index, 1)
       },
+
       // 新增图片
       async afterRead(event) {
         // 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
@@ -94,7 +95,25 @@
 
 
         //上传图片请求
+        console.log(event.file[0].url);
 
+
+        // const {
+        //   data: res
+        // } = await uni.$http.post('/record/ai')
+
+        // if (res.meta.status !== 200) {
+        //   return uni.showToast({
+        //     title: '数据请求失败！',
+        //     duration: 1500,
+        //     icon: 'none',
+        //   })
+        // }
+
+        this.uploadFilePromise(event.file[0].url)
+
+
+        console.log(res);
 
 
         //处理完成
@@ -104,9 +123,32 @@
           message: '',
           url: ''
         }))
+      },
 
+      uploadFilePromise(url) {
+        //返回图片url
+        return new Promise((resolve, reject) => {
+          let a = uni.uploadFile({
+            url: 'http://localhost:8881/upload', // 仅为示例，非真实的接口地址
+            filePath: url,
+            name: 'file',
+            // header: {
+            //   "Authorization": "bearer ASDFGHJKL1314510" //token校验
+            // },
+            formData: {
+              user: 'test'
+            },
+            success: (res) => {
+              setTimeout(() => {
+                resolve(res.data.data)
+                //JSON.parse(res.data) //字符串转对象
+              }, 1000)
+            }
+          });
+        })
       },
     },
+
     onReady() {
       //如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则。
       this.$refs.recordFrom.setRules(this.rules)
