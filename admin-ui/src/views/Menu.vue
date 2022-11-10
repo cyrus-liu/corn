@@ -219,7 +219,16 @@
 </template>
 
 <script>
-import {handleAdd, handleDelete, getMenuBy, getMenuList, handleUpdate} from "@/api/menu";
+import {
+  handleAdd,
+  handleDelete,
+  getMenuBy,
+  getMenuList,
+  handleUpdate,
+  addMenu,
+  updateMenu,
+  deleteMenu
+} from "@/api/menu";
 import {createTree} from "@/utils/createTree";
 import TreeSelect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -379,7 +388,7 @@ export default {
         return
       }
 
-      await handleDelete({id: row.id})
+      await deleteMenu({id: row.id})
       this.$notify({
         title: '成功',
         message: '删除菜单成功',
@@ -394,7 +403,7 @@ export default {
         if (valid) {
           if (this.form.id !== null) {
             //修改
-            await handleUpdate(this.form)
+            await updateMenu(this.form)
             this.$notify({
               title: '成功',
               message: '修改菜单成功',
@@ -405,7 +414,7 @@ export default {
             await this.getMenus()
           } else {
             //新增
-            await handleAdd(this.form)
+            await addMenu(this.form)
             this.$notify({
               title: '成功',
               message: '新增菜单成功',
