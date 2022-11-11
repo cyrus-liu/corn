@@ -19,6 +19,12 @@
         "enablePullDownRefresh": false
       }
 
+    }, {
+      "path": "pages/recordInfo/recordInfo",
+      "style": {
+        "navigationBarTitleText": "记录详情",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "globalStyle": {

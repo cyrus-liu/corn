@@ -8,19 +8,27 @@
 
     <view class="d-card">
       <u--form :model="recordInfo" ref="recordFrom" :rules="rules">
-        <u-form-item label="名称" prop="name">
+        <u-form-item label="样本名称" prop="name">
           <u-input v-model="recordInfo.name" />
         </u-form-item>
 
-        <u-form-item label="备注" prop="remark">
+        <u-form-item label="样本备注" prop="remark">
           <u--textarea v-model="recordInfo.remark" count></u--textarea>
         </u-form-item>
 
-        <u-form-item label="识别图像">
+        <u-form-item label="样本图像">
           <u-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple :maxCount="1"
             width="550rpx" height="350rpx">
           </u-upload>
         </u-form-item>
+
+        <u-form-item label="识别结果" v-if="AiResultList">
+          <view class="res-list" v-for="(item,index) in AiResultList" :key="index">
+            <view>{{item.name}}</view>
+            <view>相似度：{{ Number(item.value*100).toFixed(1)}}%</view>
+          </view>
+        </u-form-item>
+
       </u--form>
 
       <u-button type="primary" text="确定" @click="submit"></u-button>
@@ -38,7 +46,13 @@
         recordInfo: {
           name: '', //标记昵称
           remark: '', //标记备注
+          resultName: null, //识别结果
+          resultValue: null, //相似度
+          longitude: null, //经度
+          latitude: null, //纬度
+          imgUrl: null
         },
+        AiResultList: null,
         fileList1: [],
         rules: {
           name: [{
@@ -58,26 +72,62 @@
             message: '备注不得为空',
             trigger: ['blur', 'change']
           }, {
-            min: 3,
+            min: 0,
             max: 140,
-            message: '长度在3-140个字符之间'
-          }]
+            message: '长度在0-140个字符之间'
+          }],
+          img: [{
+            required: true,
+            message: '图片不能为空',
+            trigger: ['blur', 'change']
+          }],
         },
       };
     },
     methods: {
-      submit() {
-        this.$refs.recordFrom.validate().then(res => {
-          uni.$u.toast('校验通过')
+      reset() {
+        this.recordInfo = {
+          name: '', //标记昵称
+          remark: '', //标记备注
+          resultName: null, //识别结果
+          resultValue: null, //相似度
+          longitude: null, //经度
+          latitude: null, //纬度
+          imgUrl: null
+        }
 
-        }).catch(errors => {
-          uni.$u.toast('校验失败')
+        this.AiResultList = null
+        this.fileList1 = []
+      },
+      async submit() {
+        try {
+          const recordFrom = await this.$refs.recordFrom.validate()
+          if (recordFrom) {
 
-        })
+            if (this.recordInfo.imgUrl == null && this.recordInfo.resultName == null) {
+              return uni.$u.toast('提交失败')
+            }
+
+            const {
+              data: res
+            } = await uni.$http.post('/record', this.recordInfo)
+
+            if (res.code != 200)  return uni.$u.toast('失败')
+            
+            this.reset()
+            
+            uni.redirectTo({
+              url: '/pages/home/home'
+            });
+          }
+        } catch (e) {
+          uni.$u.toast('提交失败')
+        }
       },
       // 删除图片
       deletePic(event) {
         this[`fileList${event.name}`].splice(event.index, 1)
+        this.AiResultList = null
       },
 
       // 新增图片
@@ -93,60 +143,83 @@
           })
         })
 
+        const {
+          data: res
+        } = await this.uploadFilePromise(event.file[0].url)
 
-        //上传图片请求
-        console.log(event.file[0].url);
-
-
-        // const {
-        //   data: res
-        // } = await uni.$http.post('/record/ai')
-
-        // if (res.meta.status !== 200) {
-        //   return uni.showToast({
-        //     title: '数据请求失败！',
-        //     duration: 1500,
-        //     icon: 'none',
-        //   })
-        // }
-
-        this.uploadFilePromise(event.file[0].url)
+        const result = JSON.parse(res)
 
 
-        console.log(res);
+        console.log(result);
+        if (result.code == 200) {
 
+          //处理完成
+          let item = this[`fileList${event.name}`][fileListLen]
+          this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
+            status: 'success',
+            message: '识别成功',
+            url: result.data.imgUrl,
+          }))
+          this.recordInfo.imgUrl = result.data.imgUrl
 
-        //处理完成
-        let item = this[`fileList${event.name}`][fileListLen]
-        this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
-          status: 'success',
-          message: '',
-          url: ''
-        }))
+          //===== 数据格式转换=====
+          //对象转换数组
+          let obj = result.data.aiResultVo.data
+          let arr = []
+          for (let i in obj) {
+            let o = {};
+            o[i] = obj[i];
+            arr.push(o)
+          }
+
+          let resultArr = []
+          arr.forEach(item => {
+            let r = {
+              name: Object.keys(item)[0],
+              value: parseFloat(Object.values(item)[0])
+            }
+            resultArr.push(r)
+          })
+
+          function compare(p) { //这是比较函数
+            return (m, n) => {
+              let a = m[p];
+              let b = n[p];
+              return b - a;
+            }
+          }
+          console.log(resultArr.sort(compare('value')))
+          this.recordInfo.resultName = resultArr.sort(compare('value'))[0].name
+          this.recordInfo.resultValue = resultArr.sort(compare('value'))[0].value
+
+          this.AiResultList = resultArr.sort(compare('value'))
+          //this.recordInfo.result = resultArr.sort(compare('value'))[0]
+        }
       },
 
       uploadFilePromise(url) {
         //返回图片url
         return new Promise((resolve, reject) => {
-          let a = uni.uploadFile({
+          uni.uploadFile({
             url: 'http://localhost:8881/upload', // 仅为示例，非真实的接口地址
             filePath: url,
             name: 'file',
             // header: {
             //   "Authorization": "bearer ASDFGHJKL1314510" //token校验
             // },
-            formData: {
-              user: 'test'
-            },
             success: (res) => {
-              setTimeout(() => {
-                resolve(res.data.data)
-                //JSON.parse(res.data) //字符串转对象
-              }, 1000)
+              if (res) {
+                resolve(res)
+              }
             }
           });
         })
       },
+    },
+
+    onShow() {
+      this.recordInfo.latitude = this.$store.state.latitude
+      this.recordInfo.longitude = this.$store.state.longitude
     },
 
     onReady() {
@@ -174,5 +247,11 @@
     background-color: #fff;
     box-shadow: 0 8rpx 16rpx 0 rgba(0, 0, 0, 0.2), 0 12rpx 40rpx 0 rgba(0, 0, 0, 0.19);
 
+  }
+
+  .res-list {
+    padding: 0 30rpx;
+    display: flex;
+    justify-content: space-between;
   }
 </style>

@@ -237,9 +237,6 @@ export default {
       const {data: res} = await getRoleList(this.queryParams)
       this.roleTableData = res.data.rows
       this.total =  Number(res.data.total)
-
-      console.log(res.data)
-      console.log(this.total)
     },
 
     //新增按钮操作

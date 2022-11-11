@@ -2,6 +2,7 @@ package com.nhb.controller;
 
 import com.nhb.service.UploadService;
 import com.nhb.utils.Result;
+import com.nhb.vo.AiResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class UploadController {
 
     @PostMapping("/upload")
     @ApiOperation("上传图片")
-    public Result uploadImg(MultipartFile file){
-        return uploadService.uploadImg(file);
+    public Result uploadAiImg(MultipartFile file){
+        return uploadService.uploadAiImg(file);
     }
+
 }

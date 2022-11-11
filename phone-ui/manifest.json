@@ -56,8 +56,8 @@
             "urlCheck" : false,
             "minified" : false,
             "es6" : true,
-            "ignoreDevUnusedFiles": false,
-            "ignoreUploadUnusedFiles": false
+            "ignoreDevUnusedFiles" : false,
+            "ignoreUploadUnusedFiles" : false
         },
         "usingComponents" : true,
         "permission" : {

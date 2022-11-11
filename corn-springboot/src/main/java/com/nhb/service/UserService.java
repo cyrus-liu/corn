@@ -14,4 +14,6 @@ import com.nhb.utils.Result;
 public interface UserService extends IService<User> {
 
     Result getUserMenus();
+
+    Result userList(Integer pageNum, Integer pageSize, String keywords);
 }

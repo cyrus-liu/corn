@@ -1,6 +1,7 @@
 package com.nhb.service;
 
 import com.nhb.utils.Result;
+import com.nhb.vo.AiResultVo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -8,5 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2022-11-09
  */
 public interface UploadService {
-    Result uploadImg(MultipartFile file);
+    Result uploadAiImg(MultipartFile file);
 }
