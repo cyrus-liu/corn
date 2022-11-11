@@ -4,15 +4,9 @@
       <map style="width: 100%; height: 92vh;" :show-location='true' ref="map" id="map" :latitude="latitude"
         :longitude="longitude" :markers="marker" :scale="scale" @markertap="markertap">
         <view class="view">
-
-          <view @click="refresh"
-            style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-            <image class="cover-image" src="/static/home/刷新.png"></image>
-            <view>刷新</view>
-          </view>
-
+          
           <view
-            style="margin-top: 20rpx; display: flex; align-items: center; justify-content: center; flex-direction: column;"
+            style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
             @click="onControltap">
             <image class="cover-image" src="/static/home/定位.png"></image>
             <view>定位</view>
@@ -52,17 +46,7 @@
         latitude: 39.916527, //纬度
         longitude: 116.397128, //经度
         scale: 12, //缩放级别
-
-
-        marker: [{
-          id: 0,
-          latitude: 34.79977, //纬度
-          longitude: 113.66072, //经度
-          iconPath: '/static/home/Path.png', //显示的图标        
-          rotate: 0, // 旋转度数
-          width: 33, //宽
-          height: 33, //高
-        }],
+        marker: [],
         queryLocation: []
       }
     },
@@ -76,8 +60,42 @@
     },
     onShow() {
       this.getLocationApi()
+      this.getRecordDatas()
+
     },
+    onHide() {
+      this.$store.commit('setLatitude', this.latitude);
+      this.$store.commit('setLongitude', this.longitude);
+    },
+
     methods: {
+      async getRecordDatas() {
+        const {
+          data: res
+        } = await uni.$http.get('/record/list')
+
+        if (res.code == 200) {
+          let newArr = []
+          res.data.forEach(item => {
+            let o = {
+              id: item.id,
+              longitude: item.longitude, //经度
+              latitude: item.latitude, //纬度
+              iconPath: '/static/home/Path.png', //显示的图标        
+              rotate: 0, // 旋转度数
+              width: 33, //宽
+              height: 33, //高
+            }
+            item = o
+
+            newArr.push(item)
+          })
+
+          console.log(newArr);
+
+          this.marker = newArr
+        }
+      },
       close() {
         this.multiFunisShow = !this.multiFunisShow
         this.show = !this.show
@@ -137,14 +155,10 @@
       doLocation(location) {
         this.latitude = location.lat
         this.longitude = location.lng
-        this.close()
+        this.close()  
       },
-      //刷新按钮
-      refresh() {
-        this.getLocationApi()
-        console.log('刷新');
-        //后期这里可加入调用请求接口的方法，用来实现刷新
-      },
+
+    
 
       //定位按钮
       onControltap() {
@@ -158,9 +172,12 @@
 
       //地图点击事件
       markertap(e) {
+        uni.navigateTo({
+          url: "/pages/recordInfo/recordInfo?id=" + e.detail.markerId
+        })
         console.log("你点击了标记点", e.detail.markerId)
       },
-    }
+    },
   }
 </script>
 
@@ -177,7 +194,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 42rpx 22rpx;
+      padding: 10rpx 10rpx;
       color: #4F575F;
       font-weight: 400;
       background-color: #fff;

@@ -1,15 +1,20 @@
 package com.nhb.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nhb.entity.Menu;
+import com.nhb.entity.Role;
 import com.nhb.entity.User;
 import com.nhb.mapper.UserMapper;
 import com.nhb.service.UserService;
 import com.nhb.utils.Result;
+import com.nhb.vo.PageVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +41,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         List<Menu> menuTree = builderMenuTree(userMenuList);
         return Result.okResult(menuTree);
+    }
+
+    @Override
+    public Result userList(Integer pageNum, Integer pageSize, String keywords) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        //模糊查询
+        queryWrapper.like(Objects.nonNull(keywords), User::getUserName, keywords);
+
+        //分页
+        Page<User> rolePage = new Page<>(pageNum, pageSize);
+        page(rolePage, queryWrapper);
+        PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
+        return Result.okResult(pageVo);
     }
 
     /**

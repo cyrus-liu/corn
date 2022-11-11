@@ -38,5 +38,12 @@ public class UserController {
     public Result getUserMenus(){
         return userService.getUserMenus();
     }
+
+
+    @ApiOperation("查看所有用户")
+    @GetMapping("/list")
+    public Result list(Integer pageNum, Integer pageSize, String keywords) {
+        return userService.userList(pageNum, pageSize, keywords);
+    }
 }
 

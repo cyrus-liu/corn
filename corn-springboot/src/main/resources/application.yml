@@ -1,6 +1,7 @@
 server:
   port: 8881
 spring:
+  aiUrl: http://120.48.58.130:8080/predict/
   # redis配置
   redis:
     # Redis数据库索引（默认为0）
@@ -77,12 +78,6 @@ sa-token:
   is-log: false
 
 
-cos:
-  baseUrl: fxxxxxa-1xxxxx1.cos.ap-shanghai.myqcloud.com
-  accessKey: AKIDjLkyznNksmSt41kEuMaYJp8C2d09EG4e
-  secretKey: NWQ8aonY5Pr55qNfjZBXeWAxVpwoQozw
-  bucket: ap-guangzhou
-  bucketName: corn-1306784580
-  path: https://corn-1306784580.cos.ap-guangzhou.myqcloud.com
-  qianzui: /files
+
+
 

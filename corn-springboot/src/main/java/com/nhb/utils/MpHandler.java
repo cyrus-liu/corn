@@ -6,6 +6,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * MP拦截器
@@ -27,4 +28,8 @@ public class MpHandler implements MetaObjectHandler {
         this.setFieldValByName("updateTime", new Date(), metaObject);
         this.setFieldValByName("updateBy", StpUtil.getLoginIdAsLong(), metaObject);
     }
+
+
+
+
 }

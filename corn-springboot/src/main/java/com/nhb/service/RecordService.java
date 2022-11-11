@@ -14,5 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface RecordService extends IService<Record> {
 
-    Result aiImg(MultipartFile file);
+
+    Result selectRecordList();
 }
