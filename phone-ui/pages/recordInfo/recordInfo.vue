@@ -38,6 +38,12 @@
          <text style="color: #37ad70;">{{recordInfo.resultValue}}</text>
       </view>
       <u-line color="#2979ff"></u-line>
+      
+      <view class="che">
+        取样日期：
+         <text style="color: #37ad70;">{{recordInfo.createTime}}</text>
+      </view>
+      <u-line color="#2979ff"></u-line>
     </view>
 
 

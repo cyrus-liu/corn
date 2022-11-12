@@ -220,6 +220,7 @@
     onShow() {
       this.recordInfo.latitude = this.$store.state.latitude
       this.recordInfo.longitude = this.$store.state.longitude
+      this.$refs['recordFrom'].clearValidate();
     },
 
     onReady() {

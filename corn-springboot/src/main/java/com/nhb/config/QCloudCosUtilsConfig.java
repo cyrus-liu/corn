@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class QCloudCosUtilsConfig {
-    @ConfigurationProperties(prefix = "spring.qcloud")
+    @ConfigurationProperties(prefix = "qcloud")
     @Bean
     public QCloudCosUtils qcloudCosUtils() {
         return new QCloudCosUtils();
