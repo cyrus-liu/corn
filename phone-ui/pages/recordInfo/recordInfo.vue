@@ -1,6 +1,6 @@
 <template>
   <view>
-    <image style="width: 100%; height: 480rpx; background-color: #eeeeee;" :src="recordInfo.imgUrl" />
+    <image style="width: 100%; height: 480rpx; background-color: #eeeeee;" mode="scaleToFill" :src="recordInfo.imgUrl" />
 
     <view style="padding: 30rpx;">
       <view class="che">

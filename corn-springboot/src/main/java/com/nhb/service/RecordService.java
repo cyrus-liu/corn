@@ -16,4 +16,6 @@ public interface RecordService extends IService<Record> {
 
 
     Result selectRecordList();
+
+    Result addRecord(Record record);
 }

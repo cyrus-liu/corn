@@ -81,7 +81,12 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
             }
         }
 
-        //不为空，登录并直接返回token
+        //每次登录更新头像和昵称,
+        WxUser wxUser = BeanCopyUtils.copyBean(wxUserLoginDto, WxUser.class);
+        wxUser.setOpenId(openId);
+        updateById(wxUser);
+
+        //登录并直接返回token
         StpUtil.login(openId);
         String token = StpUtil.getTokenValue();
         return Result.okResult(token);

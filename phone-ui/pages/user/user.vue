@@ -4,7 +4,7 @@
       <!-- 用户信息 -->
       <view class="user_info" v-if="token">
         <image class="center_img" :src="userinfo.avatarUrl"></image>
-        <view style="margin-top: 30rpx; font-size: 22px;">{{userinfo.nickName}}</view>
+        <view style="margin-top: 30rpx; font-size: 22px; color: #F0F3BD;">{{userinfo.nickName}}</view>
       </view>
 
       <!-- 登录按钮 -->
@@ -15,14 +15,14 @@
       </view>
 
       <!-- 波浪图片 -->
-      <image src='https://codermoyv.gitee.io/coder-moyv/assets/images/wechat/bg_wave.gif' mode='scaleToFill'
+      <image src='https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/bg_wave.gif' mode='scaleToFill'
         class='gif-wave'></image>
     </view>
 
     <!-- 功能栏 -->
     <view class="d-card">
       <u-cell-group>
-        <u-cell icon="edit-pen" title="取样" url="" isLink :border="false" v-if="token"></u-cell>
+        <u-cell icon="edit-pen" title="取样" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
         <u-cell icon="order" title="取样记录" url="" isLink :border="false" v-if="token"></u-cell>
         <u-cell icon="question-circle" title="关于" url="" isLink :border="false"></u-cell>
         <u-cell icon="lock-open" title="退出登录" @click="show = true" isLink :border="false" v-if="token"></u-cell>
@@ -66,8 +66,6 @@
                   nickName: t.userinfo.nickName,
                   avatarUrl: t.userinfo.avatarUrl
                 }).then(res => {
-                  console.log(res);
-                  if (res.data.code != 200) return uni.$u.toast(res.data.msg)
                   t.$store.commit('setToken', res.data.data);
                   t.token = res.data.data
                 })
@@ -80,17 +78,20 @@
 
       //退出登录
       async logOut() {
+        //发起退出登录请求
+        await uni.$http.get('/wxUser/logout')
         this.token = null
         this.userinfo = null
         uni.removeStorageSync('userInfo')
         uni.removeStorageSync('token')
-        //发起退出登录请求
-        const {
-          data: res
-        } = await uni.$http.get('/wxUser/logout')
-        console.log(res);
         this.show = false
+      },
 
+      //前往取样记录页
+      goRecordPage() {
+        uni.navigateTo({
+          url: "/pages/record/record"
+        })
       }
     },
 
@@ -137,11 +138,10 @@
       align-items: center;
     }
   }
-
-
+  
   .center_img {
-    width: 70px;
-    height: 70px;
+    width: 140rpx;
+    height: 140rpx;
     border-radius: 50%;
     overflow: hidden;
     background-color: #ccc;

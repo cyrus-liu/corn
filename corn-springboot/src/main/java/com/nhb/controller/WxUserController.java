@@ -1,5 +1,6 @@
 package com.nhb.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import com.nhb.dto.UserLoginDto;
 import com.nhb.dto.WxUserLoginDto;
@@ -34,7 +35,7 @@ public class WxUserController {
         return wxUserService.wxUserLogin(wxUserLoginDto);
     }
 
-    //TODO 需要token 鉴权
+    @SaCheckLogin
     @GetMapping("/logout")
     @ApiOperation("退出登录")
     public Result wxUserLogin() {

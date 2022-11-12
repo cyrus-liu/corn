@@ -1,5 +1,6 @@
 package com.nhb.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.nhb.service.UploadService;
 import com.nhb.utils.Result;
 import com.nhb.vo.AiResultVo;
@@ -22,6 +23,7 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
+    @SaCheckLogin
     @PostMapping("/upload")
     @ApiOperation("上传图片")
     public Result uploadAiImg(MultipartFile file){
