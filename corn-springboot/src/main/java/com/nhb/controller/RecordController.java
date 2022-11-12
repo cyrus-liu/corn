@@ -1,8 +1,12 @@
 package com.nhb.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nhb.entity.Menu;
 import com.nhb.entity.Record;
 import com.nhb.entity.Role;
+import com.nhb.entity.WxUser;
 import com.nhb.service.RecordService;
 import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.Result;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * (Record)控制层
@@ -26,17 +31,11 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
-
+    @SaCheckLogin
     @ApiOperation("新增检测记录")
     @PostMapping
     public Result addRecord(@RequestBody Record record) {
-        record.setCreateTime(new Date());
-        boolean save = recordService.save(record);
-
-        if (save) {
-            return Result.okResult();
-        }
-        return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+        return recordService.addRecord(record);
     }
 
     @ApiOperation("查看所有检测记录")

@@ -1,10 +1,6 @@
 <template>
   <view>
-    <view class="img-container">
-      <image style="width: 100%; height: 100%;"
-        src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-8059ac71-13c5-4a15-bec8-3ac9f98f0840/8fbf8ef2-7bca-4675-9dab-32c5a0647744.jpg">
-      </image>
-    </view>
+    <view class="img-container"></view>
 
     <view class="d-card">
       <u--form :model="recordInfo" ref="recordFrom" :rules="rules">
@@ -31,7 +27,7 @@
 
       </u--form>
 
-      <u-button type="primary" text="确定" @click="submit"></u-button>
+      <u-button type="primary" text="确定" color="#198a71" @click="submit"></u-button>
     </view>
 
 
@@ -44,12 +40,19 @@
     data() {
       return {
         recordInfo: {
-          name: '', //标记昵称
-          remark: '', //标记备注
-          resultName: null, //识别结果
-          resultValue: null, //相似度
-          longitude: null, //经度
-          latitude: null, //纬度
+          //标记昵称
+          name: '',
+          //标记备注
+          remark: '',
+          //识别结果
+          resultName: null,
+          //相似度
+          resultValue: null,
+          //经度
+          longitude: null,
+          //纬度
+          latitude: null,
+          //图片url
           imgUrl: null
         },
         AiResultList: null,
@@ -110,15 +113,20 @@
 
             const {
               data: res
-            } = await uni.$http.post('/record', this.recordInfo)
+            } = await uni.$http.post('/record', this.recordInfo, {
+              header: {
+                "token": uni.getStorageSync('token')
+              }
+            })
 
-            if (res.code != 200)  return uni.$u.toast('失败')
-            
-            this.reset()
-            
-            uni.redirectTo({
-              url: '/pages/home/home'
-            });
+            if (res.code == 200) {
+              this.reset()
+
+              uni.redirectTo({
+                url: '/pages/home/home'
+              });
+            }
+
           }
         } catch (e) {
           uni.$u.toast('提交失败')
@@ -188,12 +196,12 @@
               return b - a;
             }
           }
-          console.log(resultArr.sort(compare('value')))
+
           this.recordInfo.resultName = resultArr.sort(compare('value'))[0].name
           this.recordInfo.resultValue = resultArr.sort(compare('value'))[0].value
 
           this.AiResultList = resultArr.sort(compare('value'))
-          //this.recordInfo.result = resultArr.sort(compare('value'))[0]
+
         }
       },
 
@@ -201,12 +209,13 @@
         //返回图片url
         return new Promise((resolve, reject) => {
           uni.uploadFile({
-            url: 'http://localhost:8881/upload', // 仅为示例，非真实的接口地址
+            url: 'http://localhost:8881/upload',
             filePath: url,
             name: 'file',
-            // header: {
-            //   "Authorization": "bearer ASDFGHJKL1314510" //token校验
-            // },
+            //token校验
+            header: {
+              "token": uni.getStorageSync('token')
+            },
             success: (res) => {
               if (res) {
                 resolve(res)
@@ -220,6 +229,7 @@
     onShow() {
       this.recordInfo.latitude = this.$store.state.latitude
       this.recordInfo.longitude = this.$store.state.longitude
+      this.$refs['recordFrom'].clearValidate();
     },
 
     onReady() {
@@ -233,6 +243,7 @@
   .img-container {
     width: 100%;
     height: 368px;
+    background-color: #149a84;
   }
 
   .d-card {

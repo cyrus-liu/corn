@@ -4,9 +4,8 @@
       <map style="width: 100%; height: 92vh;" :show-location='true' ref="map" id="map" :latitude="latitude"
         :longitude="longitude" :markers="marker" :scale="scale" @markertap="markertap">
         <view class="view">
-          
-          <view
-            style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
+
+          <view style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
             @click="onControltap">
             <image class="cover-image" src="/static/home/定位.png"></image>
             <view>定位</view>
@@ -55,11 +54,12 @@
     onLoad() {
       // 实例化API核心类
       qqmapsdk = new QQMapWX({
-        key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
-      });
+          key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
+        }),
+
+        this.getLocationApi()
     },
     onShow() {
-      this.getLocationApi()
       this.getRecordDatas()
 
     },
@@ -76,23 +76,21 @@
 
         if (res.code == 200) {
           let newArr = []
-          res.data.forEach(item => {
-            let o = {
-              id: item.id,
-              longitude: item.longitude, //经度
-              latitude: item.latitude, //纬度
-              iconPath: '/static/home/Path.png', //显示的图标        
-              rotate: 0, // 旋转度数
-              width: 33, //宽
-              height: 33, //高
-            }
-            item = o
-
-            newArr.push(item)
-          })
-
-          console.log(newArr);
-
+          if (res.data.length > 0) {
+            res.data.forEach(item => {
+              let o = {
+                id: item.id,
+                longitude: item.longitude, //经度
+                latitude: item.latitude, //纬度
+                iconPath: '/static/home/Path.png', //显示的图标        
+                rotate: 0, // 旋转度数
+                width: 33, //宽
+                height: 33, //高
+              }
+              item = o
+              newArr.push(item)
+            })
+          }
           this.marker = newArr
         }
       },
@@ -155,10 +153,9 @@
       doLocation(location) {
         this.latitude = location.lat
         this.longitude = location.lng
-        this.close()  
+        this.close()
       },
 
-    
 
       //定位按钮
       onControltap() {
@@ -175,7 +172,6 @@
         uni.navigateTo({
           url: "/pages/recordInfo/recordInfo?id=" + e.detail.markerId
         })
-        console.log("你点击了标记点", e.detail.markerId)
       },
     },
   }

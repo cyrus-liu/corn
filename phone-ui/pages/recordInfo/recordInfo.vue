@@ -1,6 +1,6 @@
 <template>
   <view>
-    <image style="width: 100%; height: 480rpx; background-color: #eeeeee;" :src="recordInfo.imgUrl" />
+    <image style="width: 100%; height: 480rpx; background-color: #eeeeee;" mode="scaleToFill" :src="recordInfo.imgUrl" />
 
     <view style="padding: 30rpx;">
       <view class="che">
@@ -36,6 +36,12 @@
       <view class="che">
         相似度：
          <text style="color: #37ad70;">{{recordInfo.resultValue}}</text>
+      </view>
+      <u-line color="#2979ff"></u-line>
+      
+      <view class="che">
+        取样日期：
+         <text style="color: #37ad70;">{{recordInfo.createTime}}</text>
       </view>
       <u-line color="#2979ff"></u-line>
     </view>

@@ -6,7 +6,7 @@
         "navigationBarTitleText": "苞米豆"
       }
     }, {
-      "path": "pages/nearby/nearby",
+      "path": "pages/record/record",
       "style": {
         "navigationBarTitleText": "取样记录",
         "enablePullDownRefresh": false
@@ -38,10 +38,6 @@
     "list": [{
         "text": "首页",
         "pagePath": "pages/home/home"
-      },
-      {
-        "text": "记录",
-        "pagePath": "pages/nearby/nearby"
       },
       {
         "text": "我的",

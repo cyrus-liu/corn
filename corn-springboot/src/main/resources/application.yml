@@ -1,6 +1,7 @@
 server:
   port: 8881
 spring:
+  # 识别AI服务器
   aiUrl: http://120.48.58.130:8080/predict/
   # redis配置
   redis:
@@ -33,19 +34,7 @@ spring:
     multipart:
       max-file-size: 2MB
       max-request-size: 5MB
-  qcloud:
-    #API密钥secretId
-    secretId: AKIDjLkyznNksmSt41kEuMaYJp8C2d09EG4e
-    #API密钥secretKey
-    secretKey: NWQ8aonY5Pr55qNfjZBXeWAxVpwoQozw
-    #存储桶所属地域
-    region: ap-guangzhou
-    #存储桶空间名称
-    bucketName: corn-1306784580
-    #存储桶访问域名
-    url: https://corn-1306784580.cos.ap-guangzhou.myqcloud.com
-    #上传文件前缀路径(eg:/images/)
-    prefix: /images/
+
 
 
 mybatis-plus:
@@ -77,7 +66,27 @@ sa-token:
   # 是否输出操作日志
   is-log: false
 
+############## 微信配置 ##############
+wx-config:
+  appid: wx985af205abfd4f57
+  #密钥
+  secret: 4767e30636527530fc0b9f67ff9395e8
+  # 微信官方登录接口
+  url: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
 
 
-
+############## 腾讯对象存储 ##############
+qcloud:
+  #API密钥secretId
+  secretId: AKIDjLkyznNksmSt41kEuMaYJp8C2d09EG4e
+  #API密钥secretKey
+  secretKey: NWQ8aonY5Pr55qNfjZBXeWAxVpwoQozw
+  #存储桶所属地域
+  region: ap-guangzhou
+  #存储桶空间名称
+  bucketName: corn-1306784580
+  #存储桶访问域名
+  url: https://corn-1306784580.cos.ap-guangzhou.myqcloud.com
+  #上传文件前缀路径(eg:/images/)
+  prefix: /images/
 
