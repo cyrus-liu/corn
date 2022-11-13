@@ -61,7 +61,6 @@
     },
     onShow() {
       this.getRecordDatas()
-
     },
     onHide() {
       this.$store.commit('setLatitude', this.latitude);

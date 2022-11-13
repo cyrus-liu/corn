@@ -23,8 +23,8 @@
     <view class="d-card">
       <u-cell-group>
         <u-cell icon="edit-pen" title="取样" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
-        <u-cell icon="order" title="取样记录" url="" isLink :border="false" v-if="token"></u-cell>
-        <u-cell icon="question-circle" title="关于" url="" isLink :border="false"></u-cell>
+        <u-cell icon="order" title="取样记录" @click="goMyRecordPage" isLink :border="false" v-if="token"></u-cell>
+        <u-cell icon="question-circle" title="关于"  isLink :border="false"></u-cell>
         <u-cell icon="lock-open" title="退出登录" @click="show = true" isLink :border="false" v-if="token"></u-cell>
       </u-cell-group>
     </view>
@@ -92,6 +92,13 @@
         uni.navigateTo({
           url: "/pages/record/record"
         })
+      },
+      
+      //前往我的记录
+      goMyRecordPage(){
+        uni.navigateTo({
+          url: "/pages/myRecord/myRecord"
+        })
       }
     },
 
@@ -119,7 +126,6 @@
     border-radius: 24rpx;
     background-color: #fff;
     box-shadow: 0 8rpx 16rpx 0 rgba(0, 0, 0, 0.2), 0 12rpx 40rpx 0 rgba(0, 0, 0, 0.19);
-
   }
 
   .top {

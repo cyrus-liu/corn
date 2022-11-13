@@ -1,5 +1,6 @@
 package com.nhb.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,6 +11,7 @@ import com.nhb.service.RecordService;
 import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
+import com.nhb.vo.MyRecordVo;
 import com.nhb.vo.RecordVo;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +56,19 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             return Result.okResult();
         }
         return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @Override
+    public Result geRecordByUser() {
+        String openId = StpUtil.getLoginIdAsString();
+
+        List<Record> list = list(new QueryWrapper<Record>().lambda()
+                .eq(Record::getCreateBy, openId)
+        );
+
+        List<MyRecordVo> myRecordVos = BeanCopyUtils.copyBeanList(list, MyRecordVo.class);
+
+        return Result.okResult(myRecordVos);
     }
 
 

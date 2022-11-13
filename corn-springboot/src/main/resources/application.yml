@@ -35,8 +35,6 @@ spring:
       max-file-size: 2MB
       max-request-size: 5MB
 
-
-
 mybatis-plus:
   configuration:
     # 日志
