@@ -106,12 +106,100 @@
         @size-change="getUsers"
     />
 
+    <!-- 添加或修改参数配置对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="昵称" prop="nickName">
+              <el-input
+                  v-model="form.nickName"
+                  placeholder="请输入用户昵称"
+                  maxlength="30"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item
+                v-if="form.id == null"
+                label="账号"
+                prop="userName"
+            >
+              <el-input
+                  v-model="form.userName"
+                  placeholder="请输入账号"
+                  maxlength="30"
+              />
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item
+                v-if="form.id == null"
+                label="密码"
+                prop="password"
+            >
+              <el-input
+                  v-model="form.password"
+                  placeholder="请输入密码"
+                  type="password"
+                  maxlength="20"
+                  show-password
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="状态">
+              <el-radio-group v-model="form.status">
+                <el-radio :key="'0'" :label="'0'">正常</el-radio>
+                <el-radio :key="'1'" :label="'1'">停用</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="角色">
+
+              <el-select v-model="form.roleIds" multiple placeholder="请选择">
+
+                <el-option
+                    v-for="item in roleOptions"
+                    :key="item.id"
+                    :label="item.roleName"
+                    :value="item.id"
+                    :disabled="item.status == 1"
+                />
+              </el-select>
+
+
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
 
   </el-card>
 </template>
 
 <script>
-import {getUserList} from "@/api/user";
+import {addUser, deleteUser, getUserBy, getUserList, updateUser} from "@/api/user";
+import {getRoleOptions} from "@/api/role";
 
 export default {
   name: "User",
@@ -121,12 +209,36 @@ export default {
       open: false,
       // 非多个禁用
       multiple: true,
+      // 弹出层标题
+      title: '',
+      // 角色选项
+      roleOptions: [],
       // 选中数组
       ids: [],
+      // 表单参数
+      form: {},
       //总页数
-      total:0,
+      total: 0,
       //表格数据
-      userTableData:[],
+      userTableData: [],
+      // 表单校验
+      rules: {
+        userName: [
+          {required: true, message: '账号不得为空', trigger: 'blur'},
+        ],
+        nickName: [
+          {required: true, message: '用户昵称不得为空', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: '密码不得为空', trigger: 'blur'},
+          {
+            min: 6,
+            max: 18,
+            message: '用户密码长度必须介于 5 和 18 之间',
+            trigger: 'blur'
+          }
+        ],
+      },
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -138,20 +250,28 @@ export default {
 
   created() {
     this.getUsers()
+    this.getRoleOptions()
   },
 
   methods: {
 
     //获取数据
-    async getUsers(){
+    async getUsers() {
       const {data: res} = await getUserList(this.queryParams)
       this.userTableData = res.data.rows
-      this.total =  Number(res.data.total)
+      this.total = Number(res.data.total)
+    },
+
+    //查询角色列表
+    async getRoleOptions() {
+      const {data: res} = await getRoleOptions()
+      this.roleOptions = res.data
     },
 
     //新增按钮操作
-    handleAdd() {
+    async handleAdd() {
       this.reset()
+
       this.open = true
       this.title = '添加用户'
     },
@@ -173,50 +293,107 @@ export default {
       await this.getUsers()
     },
 
-    //修改角色
+
+    //修改按钮操作
     async handleUpdate(row) {
-      // this.reset()
-      //
-      // const {data: res} = await getRoleBy({id: row.id})
-      // this.form = res.data
-      // this.open = true
-      // this.$nextTick(async () => {
-      //   const {data: res} = await getRoleMenuIds({id: row.id})
-      //   res.data.forEach(value => {
-      //     this.$refs.menu.setChecked(value, true, false);
-      //   })
-      // })
-      // this.title = '修改角色'
+      this.reset()
+      const id = row.id
+
+      //查询用户信息
+      const {data: res} = await getUserBy({id: id})
+      this.form = res.data
+      this.open = true
+      this.title = '修改用户'
     },
 
     //删除按钮操作
     async handleDelete(row) {
-      // const ids = row.id || this.ids
-      //
-      // try {
-      //   const del = await this.$confirm('是否确认删除角色ID为"' + ids + '"的数据项？', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'warning'
-      //   })
-      //
-      //   if (del == 'confirm') {
-      //     await deleteRole(ids)
-      //     await this.getRoles()
-      //     this.$notify({
-      //       title: '成功',
-      //       message: '删除角色成功',
-      //       type: 'success'
-      //     });
-      //   }
-      //
-      // } catch (e) {
-      //   this.$message({
-      //     type: 'info',
-      //     message: '已取消删除'
-      //   });
-      // }
+      const ids = row.id || this.ids
+
+      try {
+        const del = await this.$confirm('是否确认删除用户ID为"' + ids + '"的数据项？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+
+        if (del == 'confirm') {
+          await deleteUser(ids)
+          console.log(ids)
+          await this.getUsers()
+          this.$notify({
+            title: '成功',
+            message: '删除用户成功',
+            type: 'success'
+          });
+        }
+
+      } catch (e) {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      }
     },
+
+
+    // 取消按钮
+    cancel() {
+      this.open = false
+      // this.reset()
+    },
+
+    // 表单重置
+    reset() {
+      this.form = {
+        id: null,
+        userName: null,
+        nickName: null,
+        password: null,
+        status: '0',
+        roleIds: []
+      }
+      this.resetForm('form')
+    },
+
+    //清空表单
+    resetForm(formName) {
+      if (this.$refs.form) {
+        this.$nextTick(() => {
+          this.$refs[formName].resetFields();
+        })
+      }
+    },
+
+    //提交按钮
+    submitForm() {
+      this.$refs['form'].validate(async (valid) => {
+        if (valid) {
+          if (this.form.id) {
+
+            await updateUser(this.form)
+            this.$notify({
+              title: '成功',
+              message: '修改用户成功',
+              type: 'success'
+            });
+
+            this.open = false
+            await this.getUsers()
+
+          } else {
+            await addUser(this.form)
+            this.$notify({
+              title: '成功',
+              message: '新增用户成功',
+              type: 'success'
+            });
+            this.open = false
+            await this.getUsers()
+          }
+        }
+      })
+    }
   }
 }
 </script>

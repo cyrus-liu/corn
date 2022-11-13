@@ -21,7 +21,8 @@
         审核中
       </view>
     </view>
-
+    
+    <u-divider v-if="dataList.length == 0"  text="空空如也~"></u-divider>
 
   </view>
 </template>

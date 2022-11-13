@@ -8,6 +8,7 @@ import com.nhb.dto.UpdateRoleDto;
 import com.nhb.entity.Role;
 import com.nhb.entity.RoleMenu;
 import com.nhb.mapper.RoleMapper;
+import com.nhb.mapper.RoleMenuMapper;
 import com.nhb.service.RoleMenuService;
 import com.nhb.service.RoleService;
 import com.nhb.utils.AppHttpCodeEnum;
@@ -32,7 +33,7 @@ import java.util.Objects;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
     @Autowired
-    private RoleMenuService roleMenuService;
+    private RoleMenuMapper roleMenuMapper;
 
     @Override
     public Result roleList(Integer pageNum, Integer pageSize, String keywords) {
@@ -56,13 +57,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         //根据新增角色返回的id，批量删除对应的菜单
         Long id = role.getId();
-        roleMenuService.removeById(id);
+        roleMenuMapper.deleteById(id);
 
         //将选择的菜单分配给角色
         List<Long> menuIds = addRoleDto.getMenuIds();
         for (Long menuId : menuIds) {
             RoleMenu roleMenu = new RoleMenu(id, menuId);
-            roleMenuService.save(roleMenu);
+            roleMenuMapper.insert(roleMenu);
         }
 
         return Result.okResult();
@@ -76,13 +77,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         //批量删除对应的菜单
         Long id = role.getId();
-        roleMenuService.removeById(id);
+        roleMenuMapper.deleteById(id);
 
         //将选择的菜单分配给角色
         List<Long> menuIds = updateRoleDto.getMenuIds();
         for (Long menuId : menuIds) {
             RoleMenu roleMenu = new RoleMenu(id, menuId);
-            roleMenuService.save(roleMenu);
+            roleMenuMapper.insert(roleMenu);
         }
 
         return Result.okResult();

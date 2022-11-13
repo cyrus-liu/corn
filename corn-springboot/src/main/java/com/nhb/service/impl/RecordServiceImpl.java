@@ -49,6 +49,9 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
             throw new SystemException(AppHttpCodeEnum.LOCATION_REPETITION);
         }
 
+        record.setCreateBy(StpUtil.getLoginIdAsString());
+        record.setCreateTime(new Date());
+
         //插入记录
         boolean save = save(record);
 

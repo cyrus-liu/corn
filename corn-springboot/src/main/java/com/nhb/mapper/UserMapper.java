@@ -2,6 +2,7 @@ package com.nhb.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nhb.entity.Menu;
+import com.nhb.entity.Role;
 import com.nhb.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,6 +19,8 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     List<Menu> selectUserByMenus(long loginUserId);
+
+    List<Long> selectByRoles(Long id);
 }
 
 

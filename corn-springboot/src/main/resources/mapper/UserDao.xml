@@ -26,5 +26,20 @@
         ORDER BY
             m.order_num
     </select>
+
+
+    <select id="selectByRoles" resultType="java.lang.Long">
+        SELECT
+            r.id
+        FROM
+            user_role ur
+                LEFT JOIN role r ON ur.role_id = r.id
+        WHERE
+            ur.user_id = #{id}
+          AND r.`status` = '0'
+          AND r.del_flag = '0'
+    </select>
+
+
 </mapper>
 

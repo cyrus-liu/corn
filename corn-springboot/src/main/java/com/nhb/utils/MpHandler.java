@@ -19,24 +19,12 @@ public class MpHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        if(Objects.nonNull(StpUtil.getLoginIdAsString())){
-            this.setFieldValByName("createTime", new Date(), metaObject);
-            this.setFieldValByName("createBy", StpUtil.getLoginIdAsString(), metaObject);
-            return;
-        }
-
         this.setFieldValByName("createTime", new Date(), metaObject);
         this.setFieldValByName("createBy", StpUtil.getLoginIdAsLong(), metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        if(Objects.nonNull(StpUtil.getLoginIdAsString())){
-            this.setFieldValByName("updateTime", new Date(), metaObject);
-            this.setFieldValByName("updateBy", StpUtil.getLoginIdAsString(), metaObject);
-            return;
-        }
-
         this.setFieldValByName("updateTime", new Date(), metaObject);
         this.setFieldValByName("updateBy", StpUtil.getLoginIdAsLong(), metaObject);
     }

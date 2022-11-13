@@ -12,7 +12,7 @@
         WHERE
             rm.role_id = #{id}
           AND m.`status` = '0'
-          AND del_flag = '0'
+          AND m.`del_flag` = '0'
         ORDER BY
             m.parent_id,
             m.order_num
