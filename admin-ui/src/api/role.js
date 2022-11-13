@@ -1,9 +1,18 @@
 import request from "@/utils/request";
 
-//获取角色数据
+//获取角色列表
 export function getRoleList(params) {
     return request({
         url: `/role/list?pageNum=${params.pageNum}&pageSize=${params.pageSize}&keywords=${params.keywords}`,
+        method: 'get',
+    })
+}
+
+
+//获取角色列表
+export function getRoleOptions() {
+    return request({
+        url: `/role/roles`,
         method: 'get',
     })
 }

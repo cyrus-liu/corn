@@ -4,13 +4,18 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nhb.entity.Menu;
-import com.nhb.entity.Role;
-import com.nhb.entity.User;
+import com.nhb.dto.AddUserDto;
+import com.nhb.dto.UpdateUserDto;
+import com.nhb.entity.*;
 import com.nhb.mapper.UserMapper;
+import com.nhb.mapper.UserRoleMapper;
 import com.nhb.service.UserService;
+import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
 import com.nhb.vo.PageVo;
+import com.nhb.vo.UpdateUserVo;
+import com.nhb.vo.UserVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +30,10 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public Result getUserMenus() {
@@ -55,6 +64,62 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
         return Result.okResult(pageVo);
     }
+
+    @Override
+    public Result addUser(AddUserDto addUserDto) {
+        //新增用户
+        User user = BeanCopyUtils.copyBean(addUserDto, User.class);
+        save(user);
+
+        //根据新增角色返回的id，批量删除对应的菜单
+        Long id = user.getId();
+        userRoleMapper.deleteById(id);
+
+        //将选择的角色分配给用户
+        List<Long> roleIds = addUserDto.getRoleIds();
+
+        for (Long roleId : roleIds) {
+            UserRole userRole = new UserRole(id, roleId);
+            userRoleMapper.insert(userRole);
+        }
+
+        return Result.okResult();
+    }
+
+    @Override
+    public Result geUserById(Long id) {
+        User user = getById(id);
+        UserVo userVo = BeanCopyUtils.copyBean(user, UserVo.class);
+        List<Long> roles = getBaseMapper().selectByRoles(id);
+        userVo.setRoleIds(roles);
+        return Result.okResult(userVo);
+    }
+
+    @Override
+    public Result updateUser(UpdateUserDto updateUserDto) {
+        //修改用户
+        User user = BeanCopyUtils.copyBean(updateUserDto, User.class);
+        updateById(user);
+
+        //批量删除对应的角色
+        Long id = user.getId();
+        userRoleMapper.deleteById(id);
+
+        //将选择的角色分配给用户
+        List<Long> roleIds = updateUserDto.getRoleIds();
+        for (Long roleId : roleIds) {
+            UserRole userRole = new UserRole(id, roleId);
+            userRoleMapper.insert(userRole);
+        }
+
+        return Result.okResult();
+    }
+
+//    @Override
+//    public Result geUserRoles(Long id) {
+//
+//        return Result.okResult(roles);
+//    }
 
     /**
      * @param userMenuList 用户拥有的菜单列表

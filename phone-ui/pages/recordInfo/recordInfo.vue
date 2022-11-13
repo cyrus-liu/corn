@@ -30,7 +30,7 @@
       <u-line color="#2979ff"></u-line>
       <view class="che">
         检测结果：
-        <text style="color: #37ad70;">{{rrecordInfo.resultName}}</text>
+        <text style="color: #37ad70;">{{recordInfo.resultName}}</text>
       </view>
       <u-line color="#2979ff"></u-line>
       <view class="che">
@@ -58,14 +58,9 @@
       }
     },
     methods: {
-      getRecordInfo(id) {
-        uni.$http.get('/record', {
-          id: id
-        }).then(res => {
-          if (res.data.code != 200) return uni.$u.toast('获取数据失败')
-          this.recordInfo = res.data.data
-        })
-
+     async  getRecordInfo(id) {
+       const {data:res} = await uni.$http.get('/record', {id: id})
+       this.recordInfo = res.data
       }
     },
 

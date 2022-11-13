@@ -37,6 +37,13 @@ public class RoleController {
         return roleService.roleList(pageNum, pageSize, keywords);
     }
 
+    @ApiOperation("查看所有角色")
+    @GetMapping("/roles")
+    public Result list() {
+        List<Role> list = roleService.list();
+        return Result.okResult(list);
+    }
+
     @ApiOperation(value = "新增角色", notes = "新增角色的同时，分配菜单")
     @PostMapping
     public Result addRole(@RequestBody AddRoleDto addRoleDto) {
@@ -70,5 +77,8 @@ public class RoleController {
         }
         return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
+
+
+
 }
 

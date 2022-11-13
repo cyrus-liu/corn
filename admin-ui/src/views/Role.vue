@@ -156,6 +156,7 @@
               @change="handleCheckedTreeNodeAll($event)"
           >全选/全不选
           </el-checkbox>
+
           <el-tree
               ref="menu"
               class="tree-border"
@@ -166,6 +167,7 @@
               empty-text="加载中，请稍候"
               :props="defaultProps"
           />
+
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

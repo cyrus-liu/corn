@@ -9,7 +9,9 @@ import com.nhb.entity.Role;
 import com.nhb.entity.WxUser;
 import com.nhb.service.RecordService;
 import com.nhb.utils.AppHttpCodeEnum;
+import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
+import com.nhb.vo.MyRecordVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * (Record)控制层
+ *
  * @author 大只
  * @since 2022-11-09 14:14:32
  */
@@ -50,6 +54,13 @@ public class RecordController {
         Record record = recordService.getById(id);
         return Result.okResult(record);
     }
-    
+
+    @SaCheckLogin
+    @ApiOperation("根据用户id查询检测记录")
+    @GetMapping("/my")
+    public Result geRecordByUser() {
+        return recordService.geRecordByUser();
+    }
+
 }
 

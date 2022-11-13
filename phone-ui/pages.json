@@ -26,7 +26,16 @@
         "enablePullDownRefresh": false
       }
     }
-  ],
+      ,{
+            "path" : "pages/myRecord/myRecord",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "取样记录",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
