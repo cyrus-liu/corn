@@ -2,19 +2,14 @@ package com.nhb.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.nhb.dto.UserLoginDto;
 import com.nhb.dto.WxUserLoginDto;
-import com.nhb.entity.WxUser;
 import com.nhb.service.WxUserService;
 import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 /**
  * (WxUser)控制层
@@ -23,7 +18,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/wxUser")
-@Api("微信用户模块")
+@Api(tags = "微信用户模块")
 public class WxUserController {
 
     @Autowired

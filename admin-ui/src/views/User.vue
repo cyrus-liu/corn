@@ -284,7 +284,7 @@ export default {
 
     //修改用户状态
     async handleStatusChange(row) {
-      //await updateRole(row)
+      await updateUser(row)
       this.$notify({
         title: '成功',
         message: '修改用户成功',

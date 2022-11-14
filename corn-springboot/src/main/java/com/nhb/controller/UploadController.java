@@ -3,7 +3,6 @@ package com.nhb.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.nhb.service.UploadService;
 import com.nhb.utils.Result;
-import com.nhb.vo.AiResultVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 
 @RestController
-@Api("文件上传模块")
+@Api(tags = "文件上传模块")
 public class UploadController {
 
     @Autowired
