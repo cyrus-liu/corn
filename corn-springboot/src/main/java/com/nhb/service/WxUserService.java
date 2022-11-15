@@ -15,4 +15,6 @@ import com.nhb.utils.Result;
 public interface WxUserService extends IService<WxUser> {
 
     Result wxUserLogin(WxUserLoginDto wxUserLoginDto);
+
+    Result userList(Integer pageNum, Integer pageSize, String keywords);
 }

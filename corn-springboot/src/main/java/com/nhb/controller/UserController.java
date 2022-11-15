@@ -44,7 +44,6 @@ public class UserController {
         return loginService.login(userLoginDto);
     }
 
-    //TODO 需要做鉴权登录之后才能访问
     @ApiOperation(value = "获取用户拥有的菜单")
     @SaCheckLogin
     @GetMapping("/menus")

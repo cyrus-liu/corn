@@ -12,6 +12,11 @@ public class SysConstant {
     public static final int USER_STATE_NORMAL = 0;
 
     /**
+     *  用户停用
+     */
+    public static final String USER_STATE_BAN = "1";
+
+    /**
      * 父菜单 parentId为0的
      */
     public static final int PARENT_YES = 0;

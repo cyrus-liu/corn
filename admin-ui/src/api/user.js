@@ -17,7 +17,7 @@ export function addUser(data) {
     })
 }
 
-//修改角色
+//修改用户
 export function updateUser(data) {
     return request({
         url: '/user',

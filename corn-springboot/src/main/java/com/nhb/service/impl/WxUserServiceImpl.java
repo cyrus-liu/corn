@@ -2,11 +2,14 @@ package com.nhb.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nhb.config.WxMappingJackson2HttpMessageConverter;
 import com.nhb.dto.WxUserLoginDto;
+import com.nhb.entity.User;
 import com.nhb.entity.WxUser;
 import com.nhb.error.SystemException;
 import com.nhb.mapper.WxUserMapper;
@@ -14,6 +17,8 @@ import com.nhb.service.WxUserService;
 import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
+import com.nhb.utils.SysConstant;
+import com.nhb.vo.PageVo;
 import com.nhb.vo.WxLoginVo;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -68,10 +74,12 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
         //判断用户是否存在
         WxUser user = getOne(new QueryWrapper<WxUser>().lambda().eq(WxUser::getOpenId, openId));
 
+        //自动注册
         if (Objects.isNull(user)) {
             //为空新增该用户
             WxUser wxUser = BeanCopyUtils.copyBean(wxUserLoginDto, WxUser.class);
             wxUser.setOpenId(openId);
+            wxUser.setCreateTime(new Date());
 
             if (save(wxUser)) {
                 //然后返回token
@@ -79,6 +87,12 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
                 String token = StpUtil.getTokenValue();
                 return Result.okResult(token);
             }
+        }
+
+        //登录
+        if(user.getStatus().equals(SysConstant.USER_STATE_BAN)){
+            //账号停用
+            throw new SystemException(AppHttpCodeEnum.USER_BAN);
         }
 
         //每次登录更新头像和昵称,
@@ -90,5 +104,18 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
         StpUtil.login(openId);
         String token = StpUtil.getTokenValue();
         return Result.okResult(token);
+    }
+
+    @Override
+    public Result userList(Integer pageNum, Integer pageSize, String keywords) {
+        LambdaQueryWrapper<WxUser> queryWrapper = new LambdaQueryWrapper<>();
+        //模糊查询
+        queryWrapper.like(Objects.nonNull(keywords), WxUser::getNickName, keywords);
+
+        //分页
+        Page<WxUser> wxUserPage = new Page<>(pageNum, pageSize);
+        page(wxUserPage, queryWrapper);
+        PageVo pageVo = new PageVo(wxUserPage.getRecords(), wxUserPage.getTotal());
+        return Result.okResult(pageVo);
     }
 }
