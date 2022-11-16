@@ -59,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
             String token = StpUtil.getTokenValue();
 
             //登录成功响应前端
-            UserLoginVo userLoginVo = new UserLoginVo(token);
+            UserLoginVo userLoginVo = new UserLoginVo(token,user.getUserName());
             return Result.okResult(userLoginVo);
         }
 

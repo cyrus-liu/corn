@@ -1,5 +1,6 @@
 package com.nhb.service.impl;
 
+import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -69,6 +70,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Result addUser(AddUserDto addUserDto) {
         //新增用户
         User user = BeanCopyUtils.copyBean(addUserDto, User.class);
+        //加密
+        String newPassword = SaSecureUtil.md5(user.getPassword());
+        user.setPassword(newPassword);
         save(user);
 
         //根据新增角色返回的id，批量删除对应的菜单

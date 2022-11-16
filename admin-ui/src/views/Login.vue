@@ -70,6 +70,8 @@ export default {
 
       //保存token
       this.$store.commit('setToken', res.data.token)
+      this.$store.commit('setUserName', res.data.userName)
+
       //加载用户菜单
       getUserMenuList()
       this.$message.success("登录成功");

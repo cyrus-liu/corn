@@ -24,6 +24,7 @@ import java.util.Objects;
 
 /**
  * 用户表(User)控制层
+ *
  * @author 大只
  * @since 2022-11-06 18:45:38
  */
@@ -47,7 +48,7 @@ public class UserController {
     @ApiOperation(value = "获取用户拥有的菜单")
     @SaCheckLogin
     @GetMapping("/menus")
-    public Result getUserMenus(){
+    public Result getUserMenus() {
         return userService.getUserMenus();
     }
 
@@ -74,11 +75,11 @@ public class UserController {
     @PutMapping
     public Result updateUser(@RequestBody UpdateUserDto updateUserDto) {
 
-        if(StpUtil.getLoginIdAsLong() == updateUserDto.getId()){
-            throw  new SystemException(AppHttpCodeEnum.USER_ERROR);
+        if (StpUtil.getLoginIdAsLong() == updateUserDto.getId()) {
+            throw new SystemException(AppHttpCodeEnum.USER_ERROR);
         }
 
-        if(Objects.isNull(updateUserDto.getRoleIds())){
+        if (Objects.isNull(updateUserDto.getRoleIds())) {
             User user = BeanCopyUtils.copyBean(updateUserDto, User.class);
             userService.updateById(user);
             return Result.okResult();
@@ -102,8 +103,8 @@ public class UserController {
     public Result deleteUser(@PathVariable List<Long> ids) {
 
         for (Long id : ids) {
-            if(StpUtil.getLoginIdAsLong() == id){
-                throw  new SystemException(AppHttpCodeEnum.USER_ERROR);
+            if (StpUtil.getLoginIdAsLong() == id) {
+                throw new SystemException(AppHttpCodeEnum.USER_ERROR);
             }
         }
 
@@ -112,6 +113,19 @@ public class UserController {
         if (b) {
             return Result.okResult();
         }
+        return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @ApiOperation("注销用户")
+    @SaCheckLogin
+    @GetMapping("/logOut")
+    public Result userLogOut() {
+
+        if (StpUtil.isLogin()) {
+            StpUtil.logout();
+            return Result.okResult();
+        }
+
         return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
 

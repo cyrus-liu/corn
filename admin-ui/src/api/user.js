@@ -42,3 +42,11 @@ export function deleteUser(roleId){
         method: 'delete',
     })
 }
+
+//用户注销
+export function userLogOut(){
+    return request({
+        url: `/user/logOut`,
+        method: 'get',
+    })
+}
