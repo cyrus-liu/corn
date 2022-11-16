@@ -13,11 +13,19 @@ export default new Vuex.Store({
         //用户菜单列表
         userMenuList: [],
         //tab栏
-        tabList: []
+        tabList: [],
+        //用户账号
+        userName:null
     },
     mutations: {
         setToken(state, token) {
             state.token = token;
+        },
+        setUserName(state, userName) {
+            state.userName = userName;
+        },
+        removeToken(state) {
+            state.token = null;
         },
         setCollapse(state) {
             state.collapse = !state.collapse;

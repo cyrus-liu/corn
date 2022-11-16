@@ -20,4 +20,6 @@ public interface RecordService extends IService<Record> {
     Result addRecord(Record record);
 
     Result geRecordByUser();
+
+    Result recordList(Integer pageNum, Integer pageSize, String keywords,String status);
 }

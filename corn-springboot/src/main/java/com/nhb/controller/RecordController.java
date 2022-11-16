@@ -1,8 +1,10 @@
 package com.nhb.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nhb.dto.UpdateRoleDto;
 import com.nhb.entity.Menu;
 import com.nhb.entity.Record;
 import com.nhb.entity.Role;
@@ -42,11 +44,20 @@ public class RecordController {
         return recordService.addRecord(record);
     }
 
-    @ApiOperation("查看所有检测记录")
+    @ApiOperation("查看正常的取样记录")
     @GetMapping("/list")
     public Result list() {
         return recordService.selectRecordList();
     }
+
+    @ApiOperation("查看所有取样记录")
+    @SaCheckLogin
+    @SaCheckPermission("record::query")
+    @GetMapping("/sys/list")
+    public Result list(Integer pageNum, Integer pageSize, String keywords, String status) {
+        return recordService.recordList(pageNum, pageSize, keywords, status);
+    }
+
 
     @ApiOperation("根据id查询检测记录")
     @GetMapping
@@ -60,6 +71,28 @@ public class RecordController {
     @GetMapping("/my")
     public Result geRecordByUser() {
         return recordService.geRecordByUser();
+    }
+
+    @ApiOperation("修改取样记录")
+    @SaCheckPermission("record::put")
+    @PutMapping
+    public Result updateRecord(@RequestBody Record record) {
+        if (recordService.updateById(record)) {
+            return Result.okResult();
+        }
+        return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
+    }
+
+    @ApiOperation("删除取样记录")
+    @SaCheckLogin
+    @SaCheckPermission("record::delete")
+    @DeleteMapping("/{ids}")
+    public Result deleteRecord(@PathVariable List<Long> ids) {
+
+        if (recordService.removeByIds(ids)) {
+            return Result.okResult();
+        }
+        return Result.errorResult(AppHttpCodeEnum.SYSTEM_ERROR);
     }
 
 }

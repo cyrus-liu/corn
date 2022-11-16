@@ -11,6 +11,7 @@ import com.nhb.service.LoginService;
 import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
+import com.nhb.utils.SysConstant;
 import com.nhb.vo.UserLoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,15 @@ public class LoginServiceImpl implements LoginService {
 
         //查看这个账号是不是存在的
         User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUserName, userName));
+
         if (Objects.isNull(user)) {
             //账号不存在
             throw new SystemException(AppHttpCodeEnum.LOGIN_ERROR);
+        }
+
+        if(user.getStatus().equals(SysConstant.USER_STATE_BAN)){
+            //账号停用
+            throw new SystemException(AppHttpCodeEnum.USER_BAN);
         }
 
         //对前端提交的账号和密码
@@ -52,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
             String token = StpUtil.getTokenValue();
 
             //登录成功响应前端
-            UserLoginVo userLoginVo = new UserLoginVo(token);
+            UserLoginVo userLoginVo = new UserLoginVo(token,user.getUserName());
             return Result.okResult(userLoginVo);
         }
 

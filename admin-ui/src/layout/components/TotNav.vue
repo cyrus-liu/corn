@@ -2,6 +2,7 @@
   <div>
     <!-- 导航栏 -->
     <div class="nav-bar">
+
       <!-- 折叠按钮 -->
       <div @click="trigger" class="hambuger-button">
         <i :class="isFold"/>
@@ -14,6 +15,14 @@
           <router-link v-else :to="item.path">{{ item.name }}</router-link>
         </el-breadcrumb-item>
       </el-breadcrumb>
+
+
+      <div style="position: absolute; right: 20px;top: 10px; display: flex; justify-content: center; align-items: center">
+        <div style="margin-right: 10px;font-size: 14px" >{{$store.state.userName}}</div>
+        <el-button type="danger" icon="el-icon-close" size="small" @click="logOut" circle ></el-button>
+      </div>
+
+
 
     </div>
 
@@ -37,10 +46,15 @@
         全部关闭
       </div>
     </div>
+
+
   </div>
 </template>
 
 <script>
+import {deleteRecord} from "@/api/record";
+import {userLogOut} from "@/api/user";
+
 export default {
   name: "TotNav",
   data() {
@@ -56,6 +70,39 @@ export default {
     this.$store.commit("setTab", this.$route);
   },
   methods: {
+    //退出登录
+    async logOut(){
+      try {
+        const del = await this.$confirm('该操作将注销登录', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+
+        if (del == 'confirm') {
+
+          //发起注销请求
+          await userLogOut()
+
+          //清空本地token
+          this.$store.commit('removeToken')
+          await this.$router.push({path: "/login"});
+
+          this.$notify({
+            title: '成功',
+            message: '注销成功',
+            type: 'success'
+          });
+        }
+
+      } catch (e) {
+        console.log(e)
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      }
+    },
     //跳转标签
     goTo(tab) {
       if (tab.path === this.$route.path) return
@@ -103,6 +150,7 @@ export default {
 
 <style scoped lang="less">
 .nav-bar {
+  position: relative;
   display: flex;
   align-items: center;
   padding-left: 15px;

@@ -1,5 +1,8 @@
 package com.nhb.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import com.nhb.entity.Menu;
 import com.nhb.service.MenuService;
 import com.nhb.utils.AppHttpCodeEnum;
@@ -20,18 +23,21 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/menu")
 @Api(tags = "菜单模块")
+@SaCheckLogin
 public class MenuController {
 
     @Autowired
     private MenuService menuService;
 
     @ApiOperation("查看所有菜单")
+    @SaCheckPermission("menu::query")
     @GetMapping("/list")
     public Result list(String keywords) {
         return menuService.selectMenuPage(keywords);
     }
 
     @ApiOperation("新增菜单")
+    @SaCheckPermission("menu::add")
     @PostMapping
     public Result addMenu(@RequestBody Menu menu) {
         boolean save = menuService.save(menu);
@@ -42,6 +48,7 @@ public class MenuController {
     }
 
     @ApiOperation("根据id查询菜单")
+    @SaCheckPermission("menu::query")
     @GetMapping
     public Result geMenuById(Long id) {
         Menu menu = menuService.getById(id);
@@ -49,6 +56,7 @@ public class MenuController {
     }
 
     @ApiOperation("修改菜单")
+    @SaCheckPermission("menu::put")
     @PutMapping
     public Result updateMenu(@RequestBody Menu menu) {
         boolean res = menuService.updateById(menu);
@@ -59,6 +67,7 @@ public class MenuController {
     }
 
     @ApiOperation("删除菜单")
+    @SaCheckPermission("menu::delete")
     @DeleteMapping
     public Result deleteMenu(Long id) {
         boolean res = menuService.removeById(id);
@@ -69,6 +78,7 @@ public class MenuController {
     }
 
     @ApiOperation("根据角色id查询拥护的菜单")
+    @SaCheckPermission("menu::query")
     @GetMapping("/role/ids")
     public Result roleMenuIds(Long id) {
         return menuService.selectRoleMenuIds(id);

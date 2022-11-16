@@ -21,7 +21,7 @@
         <u-form-item label="识别结果" v-if="AiResultList">
           <view class="res-list" v-for="(item,index) in AiResultList" :key="index">
             <view>{{item.name}}</view>
-            <view>相似度：{{ Number(item.value*100).toFixed(1)}}%</view>
+            <view>判别概率：{{ Number(item.value*100).toFixed(1)}}%</view>
           </view>
         </u-form-item>
 

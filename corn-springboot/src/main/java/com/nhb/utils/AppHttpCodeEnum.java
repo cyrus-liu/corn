@@ -19,6 +19,8 @@ public enum AppHttpCodeEnum {
     EMAIL_EXIST(503, "邮箱已存在"),
     REQUIRE_USERNAME(504, "必需填写用户名"),
     USERNAME_PASSWORD_NOT_NULL(405, "账号或密码为空"),
+    USER_ERROR(400,"正在使用当前用户，不得操作"),
+    USER_BAN(400,"账号停用"),
     LOGIN_ERROR(401, "账号或密码错误"),
 
     LOCATION_REPETITION(400,"一个位置重复的记录");

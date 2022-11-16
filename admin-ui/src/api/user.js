@@ -17,7 +17,7 @@ export function addUser(data) {
     })
 }
 
-//修改角色
+//修改用户
 export function updateUser(data) {
     return request({
         url: '/user',
@@ -40,5 +40,13 @@ export function deleteUser(roleId){
     return request({
         url: `/user/${roleId}`,
         method: 'delete',
+    })
+}
+
+//用户注销
+export function userLogOut(){
+    return request({
+        url: `/user/logOut`,
+        method: 'get',
     })
 }

@@ -1,5 +1,6 @@
 package com.nhb.vo;
 
+import com.nhb.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserLoginVo {
     private String token;
+    private String  userName;
 }

@@ -14,7 +14,7 @@
 
         <template v-if="route.parentId == 0 && route.menuType == 'M'">
           <!-- 目录 -->
-          <el-submenu :key="route.path" :index="route.path">
+          <el-submenu :key="route.id" :index="route.id">
             <!-- 二级菜单标题-->
             <template slot="title">
               <svg-icon :icon-class="route.icon" style="margin-right: 10px"/>
