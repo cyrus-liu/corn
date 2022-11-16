@@ -3,8 +3,10 @@ package com.nhb.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nhb.entity.Record;
+import com.nhb.entity.User;
 import com.nhb.error.SystemException;
 import com.nhb.mapper.RecordMapper;
 import com.nhb.service.RecordService;
@@ -12,6 +14,7 @@ import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
 import com.nhb.vo.MyRecordVo;
+import com.nhb.vo.PageVo;
 import com.nhb.vo.RecordVo;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +75,20 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
         List<MyRecordVo> myRecordVos = BeanCopyUtils.copyBeanList(list, MyRecordVo.class);
 
         return Result.okResult(myRecordVos);
+    }
+
+    @Override
+    public Result recordList(Integer pageNum, Integer pageSize, String keywords,String status) {
+        LambdaQueryWrapper<Record> queryWrapper = new LambdaQueryWrapper<>();
+        //模糊查询
+        queryWrapper.like(Objects.nonNull(keywords), Record::getName, keywords);
+        queryWrapper.like(Objects.nonNull(status), Record::getStatus, status);
+
+        //分页
+        Page<Record> rolePage = new Page<>(pageNum, pageSize);
+        page(rolePage, queryWrapper);
+        PageVo pageVo = new PageVo(rolePage.getRecords(), rolePage.getTotal());
+        return Result.okResult(pageVo);
     }
 
 
