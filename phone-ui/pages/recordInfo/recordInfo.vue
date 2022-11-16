@@ -34,8 +34,9 @@
       </view>
       <u-line color="#2979ff"></u-line>
       <view class="che">
-        相似度：
-         <text style="color: #37ad70;">{{recordInfo.resultValue}}</text>
+        判别概率：
+         <!-- Number(recordInfo.resultValue*100).toFixed(1) -->
+         <text style="color: #37ad70;">{{recordInfo.resultValue * 100}}%</text>
       </view>
       <u-line color="#2979ff"></u-line>
       
