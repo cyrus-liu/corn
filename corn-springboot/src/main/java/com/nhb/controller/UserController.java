@@ -2,6 +2,7 @@ package com.nhb.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import com.nhb.dto.AddUserDto;
 import com.nhb.dto.UpdateUserDto;
@@ -81,6 +82,9 @@ public class UserController {
 
         if (Objects.isNull(updateUserDto.getRoleIds())) {
             User user = BeanCopyUtils.copyBean(updateUserDto, User.class);
+            //加密
+            String newPassword = SaSecureUtil.md5(user.getPassword());
+            user.setPassword(newPassword);
             userService.updateById(user);
             return Result.okResult();
 

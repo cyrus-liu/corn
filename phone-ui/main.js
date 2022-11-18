@@ -17,7 +17,8 @@ import {
 
 uni.$http = $http
 // 配置请求根路径
-$http.baseUrl = 'http://127.0.0.1:8881'
+// $http.baseUrl = 'http://127.0.0.1:8881'
+$http.baseUrl = 'http://www.abinya.top:8881'
 
 // 请求开始之前做一些事情
 $http.beforeRequest = function(config) {
@@ -43,6 +44,7 @@ $http.afterRequest = function(config) {
 app.$mount()
 // #endif
 import uView from '@/uni_modules/uview-ui'
+
 Vue.use(uView)
 // #ifdef VUE3
 import {

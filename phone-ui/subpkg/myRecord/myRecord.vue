@@ -45,7 +45,7 @@
       //获取详细信息
       getInfo(id) {
         uni.navigateTo({
-          url: "/pages/recordInfo/recordInfo?id=" + id
+          url: "/subpkg/recordInfo/recordInfo?id=" + id
         })
       }
 

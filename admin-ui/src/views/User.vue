@@ -140,7 +140,6 @@
 
           <el-col :span="12">
             <el-form-item
-                v-if="form.id == null"
                 label="密码"
                 prop="password"
             >

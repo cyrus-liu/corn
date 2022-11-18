@@ -69,7 +69,7 @@ export function getUserMenuList() {
             }
 
         } else {
-            router.push({path: "/login"}, () => {
+            router.push({path: "/"}, () => {
             });
         }
     })

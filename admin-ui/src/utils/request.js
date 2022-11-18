@@ -5,7 +5,8 @@ import { Notification, Message } from 'element-ui'
 
 //创建一个实例
 const service = axios.create({
-    baseURL: 'http://127.0.0.1:8881', //服务器基础路径
+    // baseURL: 'http://www.abinya.top:8881/', //服务器基础路径
+    baseURL: process.env.VUE_APP_BASE_API, //服务器基础路径
     timeout: 4000, //允许超时的时间
 });
 

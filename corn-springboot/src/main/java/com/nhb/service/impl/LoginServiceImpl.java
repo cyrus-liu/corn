@@ -1,5 +1,6 @@
 package com.nhb.service.impl;
 
+import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -50,8 +51,11 @@ public class LoginServiceImpl implements LoginService {
             throw new SystemException(AppHttpCodeEnum.USER_BAN);
         }
 
+        //加密
+        String newPassword = SaSecureUtil.md5(password);
+
         //对前端提交的账号和密码
-        if (user.getUserName().equals(userName) && user.getPassword().equals(password)) {
+        if (user.getUserName().equals(userName) && user.getPassword().equals(newPassword)) {
             //根据账号id，进行登录
             StpUtil.login(user.getId());
 

@@ -86,7 +86,7 @@ export default {
 
           //清空本地token
           this.$store.commit('removeToken')
-          await this.$router.push({path: "/login"});
+          await this.$router.push({path: "/"});
 
           this.$notify({
             title: '成功',

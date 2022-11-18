@@ -90,14 +90,14 @@
       //前往取样记录页
       goRecordPage() {
         uni.navigateTo({
-          url: "/pages/record/record"
+          url: "/subpkg/record/record"
         })
       },
       
       //前往我的记录
       goMyRecordPage(){
         uni.navigateTo({
-          url: "/pages/myRecord/myRecord"
+          url: "/subpkg/myRecord/myRecord"
         })
       }
     },

@@ -169,7 +169,7 @@
       //地图点击事件
       markertap(e) {
         uni.navigateTo({
-          url: "/pages/recordInfo/recordInfo?id=" + e.detail.markerId
+          url: "/subpkg/recordInfo/recordInfo?id=" + e.detail.markerId
         })
       },
     },

@@ -1,41 +1,45 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    {
+  "pages": [{
       "path": "pages/home/home",
       "style": {
         "navigationBarTitleText": "苞米豆"
       }
-    }, {
-      "path": "pages/record/record",
-      "style": {
-        "navigationBarTitleText": "取样记录",
-        "enablePullDownRefresh": false
-      }
-
-    }, {
+    },
+    {
       "path": "pages/user/user",
       "style": {
         "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
       }
-
-    }, {
-      "path": "pages/recordInfo/recordInfo",
-      "style": {
-        "navigationBarTitleText": "记录详情",
-        "enablePullDownRefresh": false
-      }
     }
-      ,{
-            "path" : "pages/myRecord/myRecord",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "取样记录",
-                "enablePullDownRefresh": false
-            }
-            
+  ],
+
+  "subPackages": [{
+    "root": "subpkg",
+    "pages": [{
+        "path": "record/record",
+        "style": {
+          "navigationBarTitleText": "取样记录",
+          "enablePullDownRefresh": false
         }
-    ],
+      },
+      {
+        "path": "recordInfo/recordInfo",
+        "style": {
+          "navigationBarTitleText": "记录详情",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "myRecord/myRecord",
+        "style": {
+          "navigationBarTitleText": "取样记录",
+          "enablePullDownRefresh": false
+        }
+
+      }
+    ]
+  }],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
