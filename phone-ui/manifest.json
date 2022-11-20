@@ -53,9 +53,9 @@
         "appid" : "wx985af205abfd4f57",
         "requiredPrivateInfos" : [ "getLocation" ],
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "minified" : false,
-            "es6" : true,
+            "es6" : false,
             "ignoreDevUnusedFiles" : false,
             "ignoreUploadUnusedFiles" : false
         },

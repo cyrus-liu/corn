@@ -14,8 +14,4 @@ import lombok.NoArgsConstructor;
 public class WxUserLoginDto {
     //微信临时登录凭证
     private String code;
-    //昵称
-    private String nickName;
-    //头像
-    private String avatarUrl;
 }

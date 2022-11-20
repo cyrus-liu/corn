@@ -3,8 +3,8 @@
     <view class="top">
       <!-- 用户信息 -->
       <view class="user_info" v-if="token">
-        <image class="center_img" :src="userinfo.avatarUrl"></image>
-        <view style="margin-top: 30rpx; font-size: 22px; color: #F0F3BD;">{{userinfo.nickName}}</view>
+        <image class="center_img" :src="logo"></image>
+        <view style="margin-top: 30rpx; font-size: 22px; color: #F0F3BD;">{{nickName}}</view>
       </view>
 
       <!-- 登录按钮 -->
@@ -24,7 +24,7 @@
       <u-cell-group>
         <u-cell icon="edit-pen" title="取样" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
         <u-cell icon="order" title="取样记录" @click="goMyRecordPage" isLink :border="false" v-if="token"></u-cell>
-        <u-cell icon="question-circle" title="关于"  isLink :border="false"></u-cell>
+        <u-cell icon="question-circle" title="关于" isLink :border="false"></u-cell>
         <u-cell icon="lock-open" title="退出登录" @click="show = true" isLink :border="false" v-if="token"></u-cell>
       </u-cell-group>
     </view>
@@ -40,8 +40,9 @@
   export default {
     data() {
       return {
+        logo: 'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/logo.jpg',
         token: null,
-        userinfo: null,
+        nickName: null,
         show: false,
         title: '标题',
         content: '此操作将退出登录！！！'
@@ -50,29 +51,27 @@
     methods: {
       // 获取微信用户的基本信息
       login() {
-        var t = this
-        uni.getUserProfile({
-          desc: '你的授权信息',
-          success: (res) => {
-            // 将信息存到 vuex 中
-            this.$store.commit('setUserInfo', res.userInfo);
-            this.userinfo = this.$store.state.userInfo
-            uni.login({
-              success(res) {
+        var than = this
+        wx.login({
+          success(res) {
+            if (res.code) {
+              //发起网络请求
+              //向服务器发起登录请求
+              uni.$http.post('/wxUser/login', {
+                code: res.code
+              }).then(res => {
+                than.token = res.data.data.token
+                than.nickName = res.data.data.nickName
 
-                //向服务器发起登录请求
-                uni.$http.post('/wxUser/login', {
-                  code: res.code,
-                  nickName: t.userinfo.nickName,
-                  avatarUrl: t.userinfo.avatarUrl
-                }).then(res => {
-                  t.$store.commit('setToken', res.data.data);
-                  t.token = res.data.data
-                })
+                than.$store.commit('setToken', res.data.data.token)
+                than.$store.commit('setNickName', res.data.data.nickName)
+                than.token = res.data.data
+              })
 
-              }
-            })
-          },
+            } else {
+              uni.$u.toast('登录失败：' + res.errMsg)
+            }
+          }
         })
       },
 
@@ -81,8 +80,6 @@
         //发起退出登录请求
         await uni.$http.get('/wxUser/logout')
         this.token = null
-        this.userinfo = null
-        uni.removeStorageSync('userInfo')
         uni.removeStorageSync('token')
         this.show = false
       },
@@ -93,9 +90,9 @@
           url: "/subpkg/record/record"
         })
       },
-      
+
       //前往我的记录
-      goMyRecordPage(){
+      goMyRecordPage() {
         uni.navigateTo({
           url: "/subpkg/myRecord/myRecord"
         })
@@ -103,8 +100,8 @@
     },
 
     onShow() {
-      this.userinfo = uni.getStorageSync('userInfo')
       this.token = uni.getStorageSync('token')
+      this.nickName = uni.getStorageSync('nickName')
     }
   }
 </script>
@@ -144,7 +141,7 @@
       align-items: center;
     }
   }
-  
+
   .center_img {
     width: 140rpx;
     height: 140rpx;

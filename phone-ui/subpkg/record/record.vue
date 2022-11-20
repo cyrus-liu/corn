@@ -207,7 +207,7 @@
         //返回图片url
         return new Promise((resolve, reject) => {
           uni.uploadFile({
-            url: 'http://www.abinya.top:8881/upload',
+            url: 'https://www.abinya.top/upload',
             filePath: url,
             name: 'file',
             //token校验

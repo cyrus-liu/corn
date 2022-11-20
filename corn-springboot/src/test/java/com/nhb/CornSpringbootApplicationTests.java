@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Random;
+
 @SpringBootTest
 class CornSpringbootApplicationTests {
 
@@ -28,6 +30,7 @@ class CornSpringbootApplicationTests {
 //
 //        //请求
 //        ResultVo resultVo = restTemplate.postForObject(url, postData, ResultVo.class);
+
 
 
     }

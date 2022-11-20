@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 7777
 spring:
   # 识别AI服务器
   aiUrl: http://120.48.58.130:8080/predict/
@@ -8,7 +8,7 @@ spring:
     # Redis数据库索引（默认为0）
     database: 1
     # Redis服务器地址
-    host: 127.0.0.1
+    host: 182.61.21.196
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
@@ -26,8 +26,8 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 0
   datasource:
-    url: jdbc:mysql://localhost:3306/corn?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: corn
+    url: jdbc:mysql://182.61.21.196:3306/corn?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
     password: 5740339qq
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
@@ -38,8 +38,7 @@ spring:
 mybatis-plus:
   configuration:
     # 日志
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    #log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
   global-config:
     db-config:
       logic-delete-field: delFlag

@@ -12,8 +12,8 @@ export default new Vuex.Store({
     longitude: 116.397128,
     // 登录成功之后的 token 字符串
     token: null,
-    // 用户的基本信息
-    userInfo: {}
+    //用户昵称
+    nickName:null
 
   },
   mutations: {
@@ -23,18 +23,14 @@ export default new Vuex.Store({
     setLongitude(state, value) {
       state.longitude = value
     },
-    // 更新用户的基本信息
-    setUserInfo(state, value) {
-      state.userInfo = value,
-      // 将 userinfo 持久化存储到本地
-      uni.setStorageSync('userInfo', value)
-    },
     setToken(state, value) {
       state.token = value,
-      // 将 userinfo 持久化存储到本地
       uni.setStorageSync('token', value)
     },
-
+    setNickName(state, value) {
+      state.nickName = value,
+      uni.setStorageSync('nickName', value)
+    },
 
   },
   actions: {},
