@@ -11,7 +11,7 @@
             v-model="queryParams.keywords"
             prefix-icon="el-icon-search"
             size="small"
-            placeholder="请输入微信昵称"
+            placeholder="请输入openId"
             style="width:200px"
             clearable
             @clear="getWxUserData"/>
@@ -35,16 +35,6 @@
 
       <el-table-column label="OpenId" prop="openId" align="center"/>
 
-      <el-table-column
-          label="微信头像"
-          prop="avatarUrl"
-          align="center"
-      >
-
-        <template slot-scope="scope">
-          <el-avatar :size="55" :src="scope.row.avatarUrl"></el-avatar>
-        </template>
-      </el-table-column>
 
       <el-table-column
           label="微信昵称"
@@ -119,7 +109,7 @@ export default {
       await updateWxUser(row)
       this.$notify({
         title: '成功',
-        message: '修改用户成功',
+        message: '修改用户状态成功',
         type: 'success'
       });
       await this.getWxUserData()

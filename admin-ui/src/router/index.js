@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 
 const routes = [
     {
-        path: '/login',
+        path: '/',
         name: 'Login',
         component: () => import(/* webpackChunkName: "about" */ '@/views/Login')
     },
@@ -16,7 +16,7 @@ const routes = [
 
 const createRouter = () =>
     new VueRouter({
-        mode: "history",
+        // mode: "history",
         routes: routes
     });
 
@@ -36,11 +36,11 @@ NProgress.configure({
 router.beforeEach((to, from, next) => {
     NProgress.start();
     //访问登录页放行
-    if (to.path === "/login") {
+    if (to.path === "/") {
         next();
         //没有登录强制跳转登录页
     } else if (!store.state.token) {
-        next("/login");
+        next("/");
     } else {
         //登录成功放行
         next();

@@ -43,13 +43,10 @@ public class Record  {
     //记录状态 0通过 1未通过
     private String status;
 
-
     //创建者
-
     private String createBy;
 
     //创建时间
-
     private Date createTime;
 
     //删除标志（0代表未删除，1代表已删除）

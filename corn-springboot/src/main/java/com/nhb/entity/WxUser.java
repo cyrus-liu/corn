@@ -4,13 +4,10 @@ package com.nhb.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
  * (WxUser)表实体类
@@ -27,14 +24,12 @@ public class WxUser {
 
     private Integer id;
 
-    //昵称
-    private String nickName;
-    //头像
-    private String avatarUrl;
     //微信开放id
-
-    @TableId
+    @TableId(value = "open_id", type = IdType.INPUT)
     private String openId;
+
+    //用户随机昵称
+    private String nickName;
 
     //账号状态（0正常 1停用）
     private String status;

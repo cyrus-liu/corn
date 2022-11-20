@@ -157,8 +157,6 @@
 
         const result = JSON.parse(res)
 
-
-        console.log(result);
         if (result.code == 200) {
 
           //处理完成
@@ -209,7 +207,8 @@
         //返回图片url
         return new Promise((resolve, reject) => {
           uni.uploadFile({
-            url: 'http://localhost:8881/upload',
+            url: 'https://www.abinya.top/upload',
+            //url: 'http://127.0.0.1:8881/upload',
             filePath: url,
             name: 'file',
             //token校验

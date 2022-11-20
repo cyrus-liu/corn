@@ -103,6 +103,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Result updateUser(UpdateUserDto updateUserDto) {
         //修改用户
         User user = BeanCopyUtils.copyBean(updateUserDto, User.class);
+        //加密
+        String newPassword = SaSecureUtil.md5(user.getPassword());
+        user.setPassword(newPassword);
         updateById(user);
 
         //批量删除对应的角色
@@ -119,11 +122,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return Result.okResult();
     }
 
-//    @Override
-//    public Result geUserRoles(Long id) {
-//
-//        return Result.okResult(roles);
-//    }
 
     /**
      * @param userMenuList 用户拥有的菜单列表

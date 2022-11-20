@@ -40,12 +40,12 @@
           data: res
         } = await uni.$http.get('/record/my')
         this.dataList = res.data
-        console.log(res.data);
+        
       },
       //获取详细信息
       getInfo(id) {
         uni.navigateTo({
-          url: "/pages/recordInfo/recordInfo?id=" + id
+          url: "/subpkg/recordInfo/recordInfo?id=" + id
         })
       }
 

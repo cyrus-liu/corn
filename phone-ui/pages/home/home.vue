@@ -7,7 +7,7 @@
 
           <view style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
             @click="onControltap">
-            <image class="cover-image" src="/static/home/定位.png"></image>
+            <image class="cover-image" :src="iocn"></image>
             <view>定位</view>
           </view>
         </view>
@@ -39,6 +39,7 @@
   export default {
     data() {
       return {
+        iocn:'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/locating.png',
         multiFunisShow: true,
         show: false,
         keyword: '',
@@ -54,12 +55,10 @@
     onLoad() {
       // 实例化API核心类
       qqmapsdk = new QQMapWX({
-          key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
-        }),
+        key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
+      })
 
-        this.getLocationApi()
-    },
-    onShow() {
+      this.getLocationApi()
       this.getRecordDatas()
     },
     onHide() {
@@ -68,10 +67,13 @@
     },
 
     methods: {
+      //获取事件坐标
       async getRecordDatas() {
         const {
           data: res
         } = await uni.$http.get('/record/list')
+        
+        console.log(res.data);
 
         if (res.code == 200) {
           let newArr = []
@@ -93,12 +95,15 @@
           this.marker = newArr
         }
       },
+      
+      //清空搜索框
       close() {
         this.multiFunisShow = !this.multiFunisShow
         this.show = !this.show
         this.keyword = ''
         this.queryLocation = []
       },
+      
       //获取当前位置信息
       getLocationApi() {
         uni.getLocation({
@@ -106,8 +111,9 @@
           success: res => {
             this.latitude = res.latitude
             this.longitude = res.longitude
-            console.log('当前位置的经度：' + res.longitude);
-            console.log('当前位置的纬度：' + res.latitude);
+            
+            console.log('当前位置经度：' + res.latitude);
+            console.log('当前位置纬度：' + res.longitude);
           },
           fail: () => {
             uni.showToast({
@@ -130,7 +136,6 @@
           keyword: this.keyword, //搜索关键词
           location: loc.toString(), //设置周边搜索中心点
           success: res => { //搜索成功后的回调
-            console.log(res.data);
             if (res.data.length > 0) {
               this.multiFunisShow = !this.multiFunisShow
               this.show = !this.show
@@ -155,7 +160,6 @@
         this.close()
       },
 
-
       //定位按钮
       onControltap() {
         this.getLocationApi()
@@ -164,14 +168,17 @@
           latitude: this.latitude,
           longitude: this.longitude,
         });
+        
+        this.getRecordDatas()
       },
 
       //地图点击事件
       markertap(e) {
         uni.navigateTo({
-          url: "/pages/recordInfo/recordInfo?id=" + e.detail.markerId
+          url: "/subpkg/recordInfo/recordInfo?id=" + e.detail.markerId
         })
-      },
+      }
+
     },
   }
 </script>
@@ -203,8 +210,8 @@
 
     .cover-image {
       display: inline-block;
-      width: 50rpx;
-      height: 50rpx;
+      width: 70rpx;
+      height: 70rpx;
       margin-bottom: 12rpx;
     }
 

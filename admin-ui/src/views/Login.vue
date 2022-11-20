@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       user: {
-        username: "nonghb", //账号
+        username: "test@qq.com", //账号
         password: "123456", //密码
       },
 
