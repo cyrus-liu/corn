@@ -105,6 +105,12 @@
       />
 
       <el-table-column
+          label="创建者openId"
+          prop="createBy"
+          align="center"
+      />
+
+      <el-table-column
           label="状态"
           align="center"
       >
