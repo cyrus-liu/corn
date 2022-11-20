@@ -50,11 +50,15 @@
   "tabBar": {
     "list": [{
         "text": "首页",
-        "pagePath": "pages/home/home"
+        "pagePath": "pages/home/home",
+        "iconPath": "/static/首页-关.png",
+        "selectedIconPath": "/static/首页-开.png"
       },
       {
         "text": "我的",
-        "pagePath": "pages/user/user"
+        "pagePath": "pages/user/user",
+        "iconPath": "/static/我的-关.png",
+        "selectedIconPath": "/static/我的-开.png"
       }
     ]
   }
