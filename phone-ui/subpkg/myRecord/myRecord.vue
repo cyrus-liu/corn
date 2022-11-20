@@ -40,7 +40,7 @@
           data: res
         } = await uni.$http.get('/record/my')
         this.dataList = res.data
-        console.log(res.data);
+
       },
       //获取详细信息
       getInfo(id) {
