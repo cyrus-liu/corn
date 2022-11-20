@@ -91,7 +91,7 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
                 //然后返回token
                 StpUtil.login(openId);
                 String token = StpUtil.getTokenValue();
-                return Result.okResult(token);
+                return Result.okResult(new WxUserLoginVo(nickName,token));
             }
         }
 

@@ -60,6 +60,7 @@
               uni.$http.post('/wxUser/login', {
                 code: res.code
               }).then(res => {
+              
                 than.token = res.data.data.token
                 than.nickName = res.data.data.nickName
 
