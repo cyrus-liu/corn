@@ -5,11 +5,11 @@
     <view class="d-card">
       <u--form :model="recordInfo" ref="recordFrom" :rules="rules">
         <u-form-item label="样本名称" prop="name">
-          <u-input v-model="recordInfo.name" />
+          <u-input v-model="recordInfo.name" placeholder="请输入样本名称" />
         </u-form-item>
 
         <u-form-item label="样本备注" prop="remark">
-          <u--textarea v-model="recordInfo.remark" count></u--textarea>
+          <u--textarea v-model="recordInfo.remark" placeholder="请输入样本备注" count></u--textarea>
         </u-form-item>
 
         <u-form-item label="样本图像">
@@ -88,20 +88,6 @@
       };
     },
     methods: {
-      reset() {
-        this.recordInfo = {
-          name: '', //标记昵称
-          remark: '', //标记备注
-          resultName: null, //识别结果
-          resultValue: null, //相似度
-          longitude: null, //经度
-          latitude: null, //纬度
-          imgUrl: null
-        }
-
-        this.AiResultList = null
-        this.fileList1 = []
-      },
       async submit() {
         try {
           const recordFrom = await this.$refs.recordFrom.validate()
@@ -119,12 +105,14 @@
               }
             })
 
-            if (res.code == 200) {
-              this.reset()
-
+            if (res.code == 200) {              
               uni.redirectTo({
-                url: '/pages/home/home'
+                url: '/subpkg/myRecord/myRecord'
               });
+              
+              wx.redirectTo({
+                 url: `/pages/detail/detail`,
+              })
             }
 
           }
@@ -145,9 +133,7 @@
         let fileListLen = this[`fileList${event.name}`].length
         lists.map((item) => {
           this[`fileList${event.name}`].push({
-            ...item,
-            status: 'uploading',
-            message: '处理中'
+            ...item
           })
         })
 
@@ -157,50 +143,48 @@
 
         const result = JSON.parse(res)
 
-        if (result.code == 200) {
+        if (result.code != 200) return uni.$u.toast('识别失败：' + result.msg)
 
-          //处理完成
-          let item = this[`fileList${event.name}`][fileListLen]
-          this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
-            status: 'success',
-            message: '识别成功',
-            url: result.data.imgUrl,
-          }))
-          this.recordInfo.imgUrl = result.data.imgUrl
+        //处理完成
+        let item = this[`fileList${event.name}`][fileListLen]
+        this[`fileList${event.name}`].splice(fileListLen, 1, Object.assign(item, {
+          url: result.data.imgUrl
+        }))
+        this.recordInfo.imgUrl = result.data.imgUrl
 
-          //===== 数据格式转换=====
-          //对象转换数组
-          let obj = result.data.aiResultVo.data
-          let arr = []
-          for (let i in obj) {
-            let o = {};
-            o[i] = obj[i];
-            arr.push(o)
-          }
-
-          let resultArr = []
-          arr.forEach(item => {
-            let r = {
-              name: Object.keys(item)[0],
-              value: parseFloat(Object.values(item)[0])
-            }
-            resultArr.push(r)
-          })
-
-          function compare(p) { //这是比较函数
-            return (m, n) => {
-              let a = m[p];
-              let b = n[p];
-              return b - a;
-            }
-          }
-
-          this.recordInfo.resultName = resultArr.sort(compare('value'))[0].name
-          this.recordInfo.resultValue = resultArr.sort(compare('value'))[0].value
-
-          this.AiResultList = resultArr.sort(compare('value'))
-
+        //===== 数据格式转换=====
+        //对象转换数组
+        let obj = result.data.aiResultVo.data
+        let arr = []
+        for (let i in obj) {
+          let o = {};
+          o[i] = obj[i];
+          arr.push(o)
         }
+
+        let resultArr = []
+        arr.forEach(item => {
+          let r = {
+            name: Object.keys(item)[0],
+            value: parseFloat(Object.values(item)[0])
+          }
+          resultArr.push(r)
+        })
+
+        function compare(p) { //这是比较函数
+          return (m, n) => {
+            let a = m[p];
+            let b = n[p];
+            return b - a;
+          }
+        }
+
+        this.recordInfo.resultName = resultArr.sort(compare('value'))[0].name
+        this.recordInfo.resultValue = resultArr.sort(compare('value'))[0].value
+
+        this.AiResultList = resultArr.sort(compare('value'))
+
+        uni.$u.toast('识别成功，结果为：' + this.recordInfo.resultName)
       },
 
       uploadFilePromise(url) {
@@ -208,7 +192,7 @@
         return new Promise((resolve, reject) => {
           uni.uploadFile({
             url: 'https://www.abinya.top/upload',
-            //url: 'http://127.0.0.1:8881/upload',
+            // url: 'http://127.0.0.1:8881/upload',
             filePath: url,
             name: 'file',
             //token校验
