@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 17/11/2022 18:17:43
+ Date: 20/11/2022 18:45:30
 */
 
 SET NAMES utf8mb4;
@@ -134,7 +134,7 @@ INSERT INTO `role` (`id`, `role_name`, `role_key`, `role_sort`, `status`, `del_f
 INSERT INTO `role` (`id`, `role_name`, `role_key`, `role_sort`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (33, '1', '1', 0, '0', '1', 1, '2022-11-09 09:21:43', NULL, NULL);
 INSERT INTO `role` (`id`, `role_name`, `role_key`, `role_sort`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (34, '1', '1', 0, '0', '1', 1, '2022-11-09 09:21:46', NULL, NULL);
 INSERT INTO `role` (`id`, `role_name`, `role_key`, `role_sort`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (35, '1', '1', 0, '0', '1', 1, '2022-11-09 09:21:55', NULL, NULL);
-INSERT INTO `role` (`id`, `role_name`, `role_key`, `role_sort`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (36, '普通用户', 'user', 1, '0', '0', 1, '2022-11-13 17:07:11', 1, '2022-11-15 09:10:06');
+INSERT INTO `role` (`id`, `role_name`, `role_key`, `role_sort`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES (36, '普通用户', 'user', 1, '0', '0', 1, '2022-11-13 17:07:11', 1, '2022-11-17 20:27:48');
 COMMIT;
 
 -- ----------------------------
@@ -154,16 +154,6 @@ INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (25, 1);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (25, 2);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (25, 3);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (25, 2095);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 3);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2095);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2097);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 1);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2101);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2105);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2109);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2110);
-INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2111);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 1);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 2);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 3);
@@ -189,6 +179,19 @@ INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 2114);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 2115);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 2116);
 INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (1, 2117);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 3);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2095);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2097);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2110);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2111);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2114);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 1);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2101);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2105);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2109);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2112);
+INSERT INTO `role_menu` (`role_id`, `menu_id`) VALUES (36, 2115);
 COMMIT;
 
 -- ----------------------------
@@ -214,11 +217,8 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1, 'admin@qq.com', '123456', '大只', '0', NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (2, 'test@qq.com', '123456', '测试', '0', NULL, 1, '2022-11-13 16:05:49', 1, '2022-11-15 09:10:19', 0);
-INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (14787164048678, 'test@qq', '123456', '测试02', '0', NULL, 1, '2022-11-13 22:32:02', NULL, NULL, 0);
-INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (14787164048679, '13123123', '312312312', '测试03', '0', NULL, 1, '2022-11-13 22:33:13', 1, '2022-11-14 20:51:30', 1);
-INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (14787164048680, '23123213123', 'ba34114299719f15b1bdd6498322f0fa', '测试', '0', NULL, 1, '2022-11-16 15:51:05', NULL, NULL, 0);
+INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1, 'admin@qq.com', '5e4abf87ab07420ce6a3831b18d389c3', '大只', '0', NULL, NULL, '2022-11-17 20:33:57', NULL, NULL, 0);
+INSERT INTO `user` (`id`, `user_name`, `password`, `nick_name`, `status`, `avatar`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (2, 'test@qq.com', 'e10adc3949ba59abbe56e057f20f883e', '测试', '0', NULL, 1, '2022-11-13 16:05:49', 1, '2022-11-17 20:39:21', 0);
 COMMIT;
 
 -- ----------------------------
@@ -238,8 +238,8 @@ INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (1, 1);
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (14787164048678, 1);
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (14787164048678, 36);
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (14787164048679, 36);
-INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (2, 36);
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (14787164048680, 36);
+INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (2, 36);
 COMMIT;
 
 -- ----------------------------
@@ -248,19 +248,18 @@ COMMIT;
 DROP TABLE IF EXISTS `wx_user`;
 CREATE TABLE `wx_user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nick_name` varchar(255) DEFAULT NULL COMMENT '昵称',
-  `avatar_url` varchar(255) DEFAULT NULL COMMENT '头像',
+  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户随机昵称',
   `open_id` varchar(255) DEFAULT NULL COMMENT '微信开放id',
   `status` char(1) DEFAULT '0' COMMENT '状态 0正常 1停用',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of wx_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `wx_user` (`id`, `nick_name`, `avatar_url`, `open_id`, `status`, `create_time`) VALUES (1, '大只', 'https://thirdwx.qlogo.cn/mmopen/vi_32/AtZRPN7R7KC19k4gSBicCE3splRHbFqWzzsyYetbRaDoAOkiccRnpA6wicrxPeCqQP3UGUL6IbsAFzAtkNoeo6KPw/132', 'oG8dg5HAeGxGA8G6Nc4Snmgzne04', '0', '2022-11-15 00:00:00');
+INSERT INTO `wx_user` (`id`, `nick_name`, `open_id`, `status`, `create_time`) VALUES (8, '微信用户008', 'oG8dg5HAeGxGA8G6Nc4Snmgzne04', '0', '2022-11-20 18:01:25');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

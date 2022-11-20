@@ -7,7 +7,7 @@
 
           <view style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
             @click="onControltap">
-            <image class="cover-image" src="/static/home/定位.png"></image>
+            <image class="cover-image" :src="iocn"></image>
             <view>定位</view>
           </view>
         </view>
@@ -39,6 +39,7 @@
   export default {
     data() {
       return {
+        iocn:'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/locating.png',
         multiFunisShow: true,
         show: false,
         keyword: '',
