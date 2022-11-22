@@ -25,3 +25,4 @@ mvnw*
 /Ai/dataset
 /Ai/model
 /__pycache__
+/Ai/__pycache__
