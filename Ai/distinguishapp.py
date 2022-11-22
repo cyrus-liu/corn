@@ -14,9 +14,9 @@ app.config['JSON_AS_ASCII'] = False
 
 global model
 # 读取模型
-model = load_model('model/aucc0.94loss0.3724.hdf5')
+model = load_model('model/flowervgg13after.hdf5')
 # 模型的标签
-class_names = ['细菌性枯萎病', '瘟病', '褐斑病', '水稻东格鲁病毒病']
+class_names = ['雏菊', '蒲公英', '玫瑰', '向日葵', '郁金香']
 
 
 # 测试服务是否正常
@@ -66,9 +66,14 @@ def image_classifier():
         with tf.device("/cpu:0"):
             preds = model.predict(img)
         # 遍历结果把结果和标签对应起来
-        filelist = {}
-        for i in range(len(class_names)):
-            filelist[class_names[i]] = "{:.2f}%".format(preds[0][i])
+        filelist = [{"name": class_names[0], "value": str(preds[0][0])},
+                    {"name": class_names[1], "value": str(preds[0][1])},
+                    {"name": class_names[2], "value": str(preds[0][2])},
+                    {"name": class_names[3], "value": str(preds[0][3])},
+                    {"name": class_names[4], "value": str(preds[0][4])}
+                     ]
+        # for i in range(len(class_names)):
+        #     filelist[class_names[i]] = "{:.2f}%".format(preds[0][i])
 
         data = {"status": "200", "msg": "success", "data": filelist}
 
