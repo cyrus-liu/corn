@@ -19,21 +19,21 @@
     "pages": [{
         "path": "record/record",
         "style": {
-          "navigationBarTitleText": "取样记录",
+          "navigationBarTitleText": "取样标记",
           "enablePullDownRefresh": false
         }
       },
       {
         "path": "recordInfo/recordInfo",
         "style": {
-          "navigationBarTitleText": "记录详情",
+          "navigationBarTitleText": "样本详情",
           "enablePullDownRefresh": false
         }
       },
       {
         "path": "myRecord/myRecord",
         "style": {
-          "navigationBarTitleText": "取样记录",
+          "navigationBarTitleText": "样本记录",
           "enablePullDownRefresh": false
         }
 

@@ -33,6 +33,15 @@ public class OssUploadService implements UploadService {
 
     @Override
     public Result uploadAiImg(MultipartFile file) {
+
+        //判断文件类型
+        //获取原始文件名
+        String originalFilename = file.getOriginalFilename();
+        //对原始文件名进行判断
+        if (originalFilename.endsWith(".png")) {
+            throw new SystemException(AppHttpCodeEnum.NO_PNG);
+        }
+
         //存储图片至腾讯对象存储
         String upload = qCloudCosUtils.upload(file);
 

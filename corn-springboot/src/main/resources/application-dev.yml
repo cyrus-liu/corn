@@ -2,7 +2,7 @@ server:
   port: 8881
 spring:
   # 识别AI服务器
-  aiUrl: http://120.48.58.130:8080/predict/
+  aiUrl: http://120.48.58.130:8081/predict/
   # redis配置
   redis:
     # Redis数据库索引（默认为0）

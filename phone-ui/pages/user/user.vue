@@ -21,15 +21,15 @@
 
     <!-- 功能栏 -->
     <view class="d-card">
-      <u-cell-group>
-        <u-cell icon="edit-pen" title="取样" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
-        <u-cell icon="order" title="取样记录" @click="goMyRecordPage" isLink :border="false" v-if="token"></u-cell>
-        <u-cell icon="question-circle" title="关于" isLink :border="false"></u-cell>
+      <u-cell-group :border="false">
+        <u-cell icon="edit-pen" title="取样标记" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
+        <u-cell icon="order" title="样本记录" @click="goMyRecordPage" isLink :border="false" v-if="token"></u-cell>
+        <u-cell icon="question-circle" title="关于我们" isLink :border="false"></u-cell>
         <u-cell icon="lock-open" title="退出登录" @click="show = true" isLink :border="false" v-if="token"></u-cell>
       </u-cell-group>
     </view>
 
-    <!-- 对话框 -->
+    <!-- 退出提示框 -->
     <u-modal :show="show" :title="title" :content='content' @confirm="logOut" @cancel="show = false" showCancelButton>
     </u-modal>
 
@@ -44,7 +44,7 @@
         token: null,
         nickName: null,
         show: false,
-        title: '标题',
+        title: '退出登录',
         content: '此操作将退出登录！！！'
       };
     },
