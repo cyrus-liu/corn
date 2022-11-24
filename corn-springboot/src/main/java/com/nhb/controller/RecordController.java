@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nhb.dto.AddRecordDto;
 import com.nhb.dto.UpdateRoleDto;
 import com.nhb.entity.Menu;
 import com.nhb.entity.Record;
@@ -17,6 +18,7 @@ import com.nhb.vo.MyRecordVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,8 +42,8 @@ public class RecordController {
     @SaCheckLogin
     @ApiOperation("新增检测记录")
     @PostMapping
-    public Result addRecord(@RequestBody Record record) {
-        return recordService.addRecord(record);
+    public Result addRecord(@RequestBody @Validated AddRecordDto addRecordDto) {
+        return recordService.addRecord(addRecordDto);
     }
 
     @ApiOperation("查看正常的取样记录")

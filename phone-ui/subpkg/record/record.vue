@@ -8,21 +8,23 @@
           <u-input v-model="recordInfo.name" placeholder="样本名称" />
         </u-form-item>
 
-        <u-form-item label="备注" prop="remark">
-          <u--textarea v-model="recordInfo.remark" placeholder="样本备注" count></u--textarea>
+        <u-form-item label="备注">
+          <u--textarea v-model="recordInfo.remark" placeholder="选填" count></u--textarea>
         </u-form-item>
 
-        <u-alert :title="title"  showIcon="true"  effect="light" type="warning"></u-alert>
+        <u-alert :title="title" showIcon="true" effect="light" type="warning"></u-alert>
+        <u-button type="warning" @click="show = true" :plain="true" size="small" text="查看示例图像"></u-button>
+
         <u-form-item label="样本">
-          <u-upload :fileList="fileList1" @afterRead="afterRead" @delete="deletePic" name="1" multiple :maxCount="1"
-            width="550rpx" height="350rpx">
+          <u-upload :fileList="fileList1" :sizeType="['compressed']" @afterRead="afterRead" @delete="deletePic" name="1"
+            multiple :maxCount="1" width="550rpx" height="350rpx">
           </u-upload>
         </u-form-item>
 
         <u-form-item label="结果" v-if="aiRes">
           <view class="res-list">
             <view>{{aiRes.name}}</view>
-            <view>判别概率：{{Number(aiRes.value*100).toFixed(2)}}%</view>
+            <view>判别概率：{{aiRes.value*100}}%</view>
           </view>
         </u-form-item>
 
@@ -30,6 +32,13 @@
 
       <u-button type="primary" text="确定" color="#198a71" @click="submit"></u-button>
     </view>
+
+    <u-overlay :show="show" @click="show = false">
+      <view class="warp">
+        <image style="width: 100%; height: 550rpx;" mode="scaleToFill"
+          src="https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/%E5%90%91%E6%97%A5%E8%91%B5.jpg" />
+      </view>
+    </u-overlay>
 
 
   </view>
@@ -56,8 +65,10 @@
           //图片url
           imgUrl: null
         },
+        //遮罩层
+        show: false,
         aiRes: null,
-        title:'因成本原因，目前只支持识别：雏菊、蒲公英、玫瑰、向日葵、郁金香；不支持PNG格式的图片',
+        title: '因成本原因，目前只支持识别：雏菊、蒲公英、玫瑰、向日葵、郁金香；不支持PNG格式的图像；图像中的花卉必须完整且居中。',
         fileList1: [],
         rules: {
           name: [{
@@ -68,19 +79,9 @@
             {
               min: 2,
               max: 20,
-              message: '长度在3-20个字符之间'
+              message: '长度在2-20个字符之间'
             }
           ],
-
-          remark: [{
-            required: true,
-            message: '备注不得为空',
-            trigger: ['blur', 'change']
-          }, {
-            min: 0,
-            max: 140,
-            message: '长度在0-140个字符之间'
-          }],
           img: [{
             required: true,
             message: '图片不能为空',
@@ -124,12 +125,21 @@
       deletePic(event) {
         this[`fileList${event.name}`].splice(event.index, 1)
         this.aiRes = null
+        this.recordInfo.resultName = null
+        this.recordInfo.resultValue = null
       },
 
       // 新增图片
       async afterRead(event) {
+      
+        wx.showLoading({
+          title: '图像识别中...',
+          mask: true
+        })
 
-        //TODO 过滤png图片
+        setTimeout(function() {
+          wx.hideLoading()
+        }, 2000)
 
         // 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
         let lists = [].concat(event.file)
@@ -146,7 +156,10 @@
 
         const result = JSON.parse(res)
 
-        if (result.code != 200) return uni.$u.toast('识别失败：' + result.msg)
+        if (result.code != 200) {
+          uni.$u.toast('识别失败：' + result.msg)
+          return
+        }
 
         //处理完成
         let item = this[`fileList${event.name}`][fileListLen]
@@ -156,36 +169,37 @@
 
         this.recordInfo.imgUrl = result.data.imgUrl
 
-        let aiData = result.data.aiResultVo.data
+        let results = result.data.data
 
-        //找出最大值
-        let max = parseFloat(aiData[0].value).toFixed(2)
-        let aiRes = null
-        aiData.forEach(item => {
-          if (max < parseFloat(item.value).toFixed(2)) {
-            max = parseFloat(item.value).toFixed(2)
-            aiRes = item
+        //排序
+        function compare(p) {
+          return (m, n) => {
+            let a = m[p];
+            let b = n[p];
+            return b - a;
           }
-        })
+        }
+
+        let max = results.sort(compare('value'))[0]
 
         //过滤低于80%的结果
-        if (parseFloat(aiRes.value).toFixed(2) < parseFloat("0.6099").toFixed(2)) {
-          uni.$u.toast('识别度低于60%，不能保证正确结果，换张图片试试！')
+        if (max.value < "0.80") {
+          uni.$u.toast('识别度低于80%，不能保证正确结果，换张图片试试！')
           return
         }
 
-        this.recordInfo.resultName = aiRes.name
-        this.recordInfo.resultValue = aiRes.value
+        this.recordInfo.resultName = max.name
+        this.recordInfo.resultValue = max.value
 
-        this.aiRes = aiRes
+        this.aiRes = max
       },
 
       uploadFilePromise(url) {
         //返回图片url
         return new Promise((resolve, reject) => {
           uni.uploadFile({
-            // url: 'https://www.abinya.top/upload',
-            url: 'http://127.0.0.1:8881/upload',
+            url: 'https://www.abinya.top/upload',
+            // url: 'http://127.0.0.1:8881/upload',
             filePath: url,
             name: 'file',
             //token校验
@@ -238,5 +252,18 @@
   .res-list {
     display: flex;
     justify-content: space-between;
+  }
+
+  .warp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .rect {
+    width: 120px;
+    height: 120px;
+    background-color: #fff;
   }
 </style>

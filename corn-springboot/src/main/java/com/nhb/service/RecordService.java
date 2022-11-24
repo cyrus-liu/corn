@@ -1,6 +1,7 @@
 package com.nhb.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nhb.dto.AddRecordDto;
 import com.nhb.entity.Record;
 import com.nhb.utils.Result;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +18,7 @@ public interface RecordService extends IService<Record> {
 
     Result selectRecordList();
 
-    Result addRecord(Record record);
+    Result addRecord(AddRecordDto addRecordDto);
 
     Result geRecordByUser();
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @author 大只
  * @date 2022-11-09
@@ -25,7 +27,8 @@ public class UploadController {
     @SaCheckLogin
     @PostMapping("/upload")
     @ApiOperation("上传图片")
-    public Result uploadAiImg(MultipartFile file){
+    public Result uploadAiImg(MultipartFile file) {
+
         return uploadService.uploadAiImg(file);
     }
 

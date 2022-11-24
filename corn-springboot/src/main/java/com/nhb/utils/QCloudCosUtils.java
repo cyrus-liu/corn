@@ -8,6 +8,8 @@ import com.qcloud.cos.exception.CosClientException;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
+import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -19,6 +21,8 @@ import java.util.UUID;
  * @author 大只
  * @date 2022-11-09
  */
+
+@Slf4j
 public class QCloudCosUtils {
     //API密钥secretId
     private String secretId;
@@ -90,8 +94,10 @@ public class QCloudCosUtils {
     public String upload(File file) {
         //生成唯一文件名
         String newFileName = generateUniqueName(file.getName());
+
         //文件在存储桶中的key
         String key = prefix + newFileName;
+
         //声明客户端
         COSClient cosClient = null;
         try {
@@ -120,28 +126,40 @@ public class QCloudCosUtils {
      * @param multipartFile
      * @return 上传文件在存储桶的链接
      */
-    public String upload(MultipartFile multipartFile) {
+    public String upload(MultipartFile multipartFile)  {
+
         //生成唯一文件名
         String newFileName = generateUniqueName(multipartFile.getOriginalFilename());
+
         //文件在存储桶中的key
         String key = prefix + newFileName;
+
         //声明客户端
         COSClient cosClient = null;
+
         //准备将MultipartFile类型转为File类型
         File file = null;
         try {
             //生成临时文件
             file = File.createTempFile("temp", null);
+
             //将MultipartFile类型转为File类型
             multipartFile.transferTo(file);
+
             //初始化用户身份信息(secretId,secretKey)
             COSCredentials cosCredentials = new BasicCOSCredentials(secretId, secretKey);
+
             //设置bucket的区域
             ClientConfig clientConfig = new ClientConfig(new Region(region));
+
             //生成cos客户端
             cosClient = new COSClient(cosCredentials, clientConfig);
+
+            log.info("file:{}",file);
+
             //创建存储对象的请求
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, file);
+
             //执行上传并返回结果信息
             PutObjectResult putObjectResult = cosClient.putObject(putObjectRequest);
             return url + key;
@@ -149,6 +167,7 @@ public class QCloudCosUtils {
             e.printStackTrace();
         } finally {
             cosClient.shutdown();
+            file.delete();
         }
         return null;
     }

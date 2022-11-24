@@ -27,7 +27,18 @@
         <u-cell icon="question-circle" title="关于我们" isLink :border="false"></u-cell>
         <u-cell icon="lock-open" title="退出登录" @click="show = true" isLink :border="false" v-if="token"></u-cell>
       </u-cell-group>
+
+      <u-divider text="大只Web技术支持" textColor="#eeb154"
+        lineColor="#eeb154" textSize="28rpx"></u-divider>
+      <view style="width: 160rpx; height: 50rpx; margin: 0 auto;">
+        <text>版本号 1.07</text>
+      </view>
     </view>
+
+
+
+
+
 
     <!-- 退出提示框 -->
     <u-modal :show="show" :title="title" :content='content' @confirm="logOut" @cancel="show = false" showCancelButton>
@@ -60,7 +71,7 @@
               uni.$http.post('/wxUser/login', {
                 code: res.code
               }).then(res => {
-              
+
                 than.token = res.data.data.token
                 than.nickName = res.data.data.nickName
 
@@ -116,7 +127,7 @@
   .d-card {
     z-index: 999;
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 85%;

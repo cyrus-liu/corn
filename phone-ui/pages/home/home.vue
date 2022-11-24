@@ -118,12 +118,6 @@
           },
           fail(err) {
             //授权失败后，调用，可以在这儿调用下面的例子 再次进行授权
-            if (err.errMsg === 'getLocation:fail 频繁调用会增加电量损耗，可考虑使用 wx.onLocationChange 监听地理位置变化') {
-              uni.showToast({
-                title: '请勿频繁定位',
-                icon: 'none'
-              })
-            }
 
             if (err.errMsg === 'getLocation:fail auth deny') {
               // 未授权
@@ -188,7 +182,7 @@
             }
           },
           complete() {
-           
+
           },
         });
       },
