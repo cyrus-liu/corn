@@ -130,7 +130,8 @@ uni-app配置这里需要自己申请**腾讯地图账号**和**微信小程序A
 
 ## AI部分说明
 
-首先装备数据集，我使用是[花卉数据集](https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz)  
+首先装备数据集，我使用是**花卉数据集**：https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz
+
 把准备好的数据集放在dataset文件夹里目录结构如下：  
 
 ```
@@ -156,7 +157,7 @@ dataset_name
 如果你想用预训练模型进行训练的可以把模型文件放在model文件目录下，  
 然后在train.py文件里models.load_model里输入模型的名字，  
 再把Pre_training改为True就可以了。  
-下载[miniconda](https://docs.conda.io/en/latest/miniconda.html)然后安装<font color="#dd0000">注意添加环境变量</font>打开终端输入以下：  
+下载 miniconda：https://docs.conda.io/en/latest/miniconda.html然后安装<font color="#dd0000">注意添加环境变量</font>打开终端输入以下：  
 
 ```CMD
 # 创建虚拟环境
