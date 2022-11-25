@@ -66,11 +66,11 @@ def image_classifier():
         with tf.device("/cpu:0"):
             preds = model.predict(img)
         # 遍历结果把结果和标签对应起来
-        filelist = [{"name": class_names[0], "value": str(preds[0][0])},
-                    {"name": class_names[1], "value": str(preds[0][1])},
-                    {"name": class_names[2], "value": str(preds[0][2])},
-                    {"name": class_names[3], "value": str(preds[0][3])},
-                    {"name": class_names[4], "value": str(preds[0][4])}
+        filelist = [{"name": class_names[0], "value": str(round(preds[0][0],2))},
+                    {"name": class_names[1], "value": str(round(preds[0][1],2))},
+                    {"name": class_names[2], "value": str(round(preds[0][2],2))},
+                    {"name": class_names[3], "value": str(round(preds[0][3],2))},
+                    {"name": class_names[4], "value": str(round(preds[0][4],2))}
                      ]
         # for i in range(len(class_names)):
         #     filelist[class_names[i]] = "{:.2f}%".format(preds[0][i])
