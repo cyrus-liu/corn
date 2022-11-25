@@ -64,6 +64,8 @@ corn-springboot
 
 直接导入该项目于本地，修改后端配置文件中的数据库等连接信息，项目中使用到的**腾讯云对象存储**需要自行开通。
 
+
+
 本地访问接口文档地址：http://127.0.0.1:8881/doc.html#/home
 
 
@@ -169,7 +171,7 @@ dataset_name
 如果你想用预训练模型进行训练的可以把模型文件放在model文件目录下，  
 然后在train.py文件里models.load_model里输入模型的名字，  
 再把Pre_training改为True就可以了。  
-下载[miniconda](https://docs.conda.io/en/latest/miniconda.html)然后安装<font color="#dd0000">注意添加环境变量</font>打开终端输入以下：  
+下载 miniconda：https://docs.conda.io/en/latest/miniconda.html 然后安装<font color="#dd0000">注意添加环境变量</font>打开终端输入以下：  
 
 ```CMD
 # 创建虚拟环境
@@ -189,7 +191,7 @@ pip install -r requirement.txt
 程了  
 
 训练完后会在model目录下有以时间命名的模型文件，也可以用我的  
-[模型](https://pan.baidu.com/s/1ltQCTGmYH2Q3E9FsIxtrwg)提取码是：corn把下载好模型放在model目录下打开distinguishapp.py  
+模型：https://pan.baidu.com/s/1ltQCTGmYH2Q3E9FsIxtrwg 提取码是：corn把下载好模型放在model目录下打开distinguishapp.py  
 在class_names中添加对应的标签在load_model读取对应的模型  
 运行`python distinguishapp.py`然后在任何浏览器最好是谷歌  
 浏览器输入http://127.0.0.1:8086/classifierhtml
