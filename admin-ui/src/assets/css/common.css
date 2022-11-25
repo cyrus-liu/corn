@@ -1,0 +1,51 @@
+.main-card {
+    min-height: calc(100vh - 126px);
+    position: relative;
+}
+
+.title {
+    position: absolute;
+    left: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #202a34;
+    z-index: 999;
+}
+
+.title::before {
+    content: '';
+    width: 24px;
+    height: 16px;
+    border-left: 3px solid #0081ff;
+    margin-right: 20px;
+}
+
+
+.operation-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    margin-top: 2.25rem;
+}
+
+.pagination-container {
+    float: right;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.dialog-title-container {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+.dialog-title-container i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+.pagination-container {
+    float: right;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}

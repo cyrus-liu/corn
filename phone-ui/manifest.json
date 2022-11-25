@@ -1,5 +1,5 @@
 {
-    "name" : "phone-ui",
+    "name" : "苞米豆",
     "appid" : "__UNI__1A7D8A0",
     "description" : "",
     "versionName" : "1.0.0",
@@ -50,14 +50,14 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx985af205abfd4f57",
+        "appid" : "",
         "requiredPrivateInfos" : [ "getLocation" ],
         "setting" : {
-            "urlCheck" : false,
+            "urlCheck" : true,
             "minified" : false,
-            "es6" : true,
-            "ignoreDevUnusedFiles": false,
-            "ignoreUploadUnusedFiles": false
+            "es6" : false,
+            "ignoreDevUnusedFiles" : false,
+            "ignoreUploadUnusedFiles" : false
         },
         "usingComponents" : true,
         "permission" : {

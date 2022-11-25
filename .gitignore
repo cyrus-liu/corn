@@ -2,6 +2,7 @@
 .DS_Store
 node_modules/
 /dist/
+dist/
 .project
 unpackage/
 
@@ -21,5 +22,7 @@ target/
 .mvn
 mvnw*
 # AI
-/dataset
-/model
+/Ai/dataset
+/Ai/model
+/__pycache__
+/Ai/__pycache__

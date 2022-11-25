@@ -1,26 +1,45 @@
 {
-  "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-    {
+  "pages": [{
       "path": "pages/home/home",
       "style": {
         "navigationBarTitleText": "苞米豆"
       }
-    }, {
-      "path": "pages/nearby/nearby",
-      "style": {
-        "navigationBarTitleText": "附近",
-        "enablePullDownRefresh": false
-      }
-
-    }, {
+    },
+    {
       "path": "pages/user/user",
       "style": {
         "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
       }
-
     }
   ],
+
+  "subPackages": [{
+    "root": "subpkg",
+    "pages": [{
+        "path": "record/record",
+        "style": {
+          "navigationBarTitleText": "花卉识别",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "recordInfo/recordInfo",
+        "style": {
+          "navigationBarTitleText": "样本详情",
+          "enablePullDownRefresh": false
+        }
+      },
+      {
+        "path": "myRecord/myRecord",
+        "style": {
+          "navigationBarTitleText": "我的识别记录",
+          "enablePullDownRefresh": false
+        }
+
+      }
+    ]
+  }],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
@@ -31,15 +50,15 @@
   "tabBar": {
     "list": [{
         "text": "首页",
-        "pagePath": "pages/home/home"
-      },
-      {
-        "text": "附近",
-        "pagePath": "pages/nearby/nearby"
+        "pagePath": "pages/home/home",
+        "iconPath": "/static/首页-关.png",
+        "selectedIconPath": "/static/首页-开.png"
       },
       {
         "text": "我的",
-        "pagePath": "pages/user/user"
+        "pagePath": "pages/user/user",
+        "iconPath": "/static/我的-关.png",
+        "selectedIconPath": "/static/我的-开.png"
       }
     ]
   }

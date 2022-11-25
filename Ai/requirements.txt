@@ -1,0 +1,6 @@
+flask==2.2.2
+numpy
+Pillow
+gevent
+requests
+tensorflow==2.7.0
