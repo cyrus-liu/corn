@@ -7,6 +7,7 @@ import numpy as np
 
 from PIL import Image
 from io import BytesIO
+import os
 
 
 def base64_to_pil(img_base64):
@@ -27,3 +28,10 @@ def np_to_base64(img_np):
     img.save(buffered, format="PNG")
     return u"data:image/png;base64," + base64.b64encode(buffered.getvalue()).decode("ascii")
 
+# 检测文件夹是否存在，不存在就创建
+if not os.path.exists('logs'):
+    os.mkdir('logs')
+elif not os.path.exists('model'):
+    os.mkdir('model')
+elif not os.path.exists('dataset'):
+    os.mkdir('dataset')
