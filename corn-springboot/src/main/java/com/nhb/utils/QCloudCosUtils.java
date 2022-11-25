@@ -8,8 +8,7 @@ import com.qcloud.cos.exception.CosClientException;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
-import lombok.extern.slf4j.Slf4j;
-import net.coobird.thumbnailator.Thumbnails;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,7 +21,7 @@ import java.util.UUID;
  * @date 2022-11-09
  */
 
-@Slf4j
+
 public class QCloudCosUtils {
     //API密钥secretId
     private String secretId;
@@ -155,7 +154,6 @@ public class QCloudCosUtils {
             //生成cos客户端
             cosClient = new COSClient(cosCredentials, clientConfig);
 
-            log.info("file:{}",file);
 
             //创建存储对象的请求
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, file);
