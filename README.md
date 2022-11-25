@@ -34,13 +34,13 @@
 
 ```
 corn
-├── Ai 									--	ai模块
-├── LICENSE 						--	开源协议
-├── README.md 					--	项目文档
-├── admin-ui # 					--	前端后台管理
-├── corn-mysql8.0.sql 	--	sql文件，需要MySQL8,0以上
-├── corn-springboot 		--	SpringBoot工程
-└── phone-ui 						--	小程序
+├── Ai	--ai模块
+├── LICENSE	--开源协议
+├── README.md	--项目文档
+├── admin-ui	--前端后台管理
+├── corn-mysql8.0.sql	--sql文件，需要MySQL8,0以上
+├── corn-springboot	--SpringBoot工程
+└── phone-ui	--小程序
 ```
 
 
@@ -49,16 +49,15 @@ corn
 
 ```
 corn-springboot
-├── CornApplication.java 	-- 启动类
-├── config   							-- 配置模块
-├── controller   					-- 控制器模块
-├── dto 									-- dto模块
-├── entity 								-- 实体类
-├── error 								-- 异常模块
-├── mapper 								-- 异常模块
-├── service								-- 服务模块
-├── utils									-- 工具类模块
-└── vo										-- vo模块
+├── config	--配置模块
+├── controller	--控制器模块
+├── dto	--dto模块
+├── entity	--实体类
+├── error	--异常模块
+├── mapper	--持久模块
+├── service	--业务模块
+├── utils	--工具类模块
+└── vo	--vo模块
 ```
 
 
