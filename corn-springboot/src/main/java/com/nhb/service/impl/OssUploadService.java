@@ -33,17 +33,37 @@ public class OssUploadService implements UploadService {
 
     @Override
     public Result uploadAiImg(MultipartFile file) {
+
+        //获取原始文件名
+        String originalFilename = file.getOriginalFilename();
+
+        //过滤png格式的图片
+        if (originalFilename.endsWith(".png")) {
+            throw new SystemException(AppHttpCodeEnum.NO_PNG);
+        }
+
+
         //存储图片至腾讯对象存储
         String upload = qCloudCosUtils.upload(file);
 
         //转发图片url给AI服务器
         AiResultVo resultVo = PostData(upload);
 
+        //非空判断
         if (Objects.isNull(resultVo)) {
-            throw new SystemException(AppHttpCodeEnum.SYSTEM_ERROR);
+            throw new SystemException(AppHttpCodeEnum.AI_ERROR);
         }
 
-        AiInfoVo aiInfoVo = new AiInfoVo(resultVo, upload);
+        //判断响应状态
+        if(resultVo.getStatus() != 200){
+            throw new SystemException(AppHttpCodeEnum.AI_ERROR);
+        }
+
+        //响应结果
+        Object data = resultVo.getData();
+
+        //封装vo
+        AiInfoVo aiInfoVo = new AiInfoVo(data, upload);
         return Result.okResult(aiInfoVo);
     }
 

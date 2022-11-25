@@ -82,4 +82,4 @@ def image_classifier():
 
 if __name__ == '__main__':
     # model = load_model('model/aucc0.94loss0.3724.hdf5')
-    app.run('0.0.0.0', 8080, debug=False)
+    app.run('0.0.0.0', 8086, debug=False)

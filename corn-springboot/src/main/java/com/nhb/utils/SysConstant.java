@@ -26,4 +26,7 @@ public class SysConstant {
      */
     public static final String ROLE_STATE_NORMAL = "0";
 
+
+    public static final String RECORD_STATUS_NORMAL = "0";
+
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.nhb.dto.AddRecordDto;
 import com.nhb.entity.Record;
 import com.nhb.entity.User;
 import com.nhb.error.SystemException;
@@ -13,6 +14,7 @@ import com.nhb.service.RecordService;
 import com.nhb.utils.AppHttpCodeEnum;
 import com.nhb.utils.BeanCopyUtils;
 import com.nhb.utils.Result;
+import com.nhb.utils.SysConstant;
 import com.nhb.vo.MyRecordVo;
 import com.nhb.vo.PageVo;
 import com.nhb.vo.RecordVo;
@@ -34,14 +36,17 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     @Override
     public Result selectRecordList() {
         LambdaQueryWrapper<Record> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Record::getStatus, "0");
+        queryWrapper.eq(Record::getStatus, SysConstant.RECORD_STATUS_NORMAL);
         List<Record> list = list(queryWrapper);
         List<RecordVo> recordVos = BeanCopyUtils.copyBeanList(list, RecordVo.class);
         return Result.okResult(recordVos);
     }
 
     @Override
-    public Result addRecord(Record record) {
+    public Result addRecord(AddRecordDto addRecordDto) {
+
+        Record record = BeanCopyUtils.copyBean(addRecordDto, Record.class);
+
         //检查地理位置是否存在
         Record one = getOne(new QueryWrapper<Record>().lambda()
                 .eq(Record::getLongitude, record.getLongitude())
@@ -78,7 +83,7 @@ public class RecordServiceImpl extends ServiceImpl<RecordMapper, Record> impleme
     }
 
     @Override
-    public Result recordList(Integer pageNum, Integer pageSize, String keywords,String status) {
+    public Result recordList(Integer pageNum, Integer pageSize, String keywords, String status) {
         LambdaQueryWrapper<Record> queryWrapper = new LambdaQueryWrapper<>();
         //模糊查询
         queryWrapper.like(Objects.nonNull(keywords), Record::getName, keywords);

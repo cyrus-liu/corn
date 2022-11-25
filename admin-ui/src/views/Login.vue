@@ -5,7 +5,7 @@
 
       <el-card style="width: 380px">
         <div slot="header">
-          <span style="font-size: 24px;font-weight: 800">后台管理系统</span>
+          <span style="font-size: 24px;font-weight: 800">Login</span>
         </div>
 
 

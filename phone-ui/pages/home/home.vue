@@ -17,7 +17,7 @@
       <view class="multiFun" v-show="multiFunisShow">
         <view class="line"></view>
         <view style="margin: 20rpx;">
-          <u-search placeholder="请输入搜索关键词" v-model="keyword" @custom="query"></u-search>
+          <u-search placeholder="请输入位置关键词" v-model="keyword" @custom="query"></u-search>
         </view>
       </view>
     </view>
@@ -39,7 +39,7 @@
   export default {
     data() {
       return {
-        iocn:'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/locating.png',
+        iocn: 'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/locating.png',
         multiFunisShow: true,
         show: false,
         keyword: '',
@@ -47,7 +47,8 @@
         longitude: 116.397128, //经度
         scale: 12, //缩放级别
         marker: [],
-        queryLocation: []
+        queryLocation: [],
+        isLocated: false // 是否定位成功
       }
     },
     onReady() {},
@@ -55,7 +56,7 @@
     onLoad() {
       // 实例化API核心类
       qqmapsdk = new QQMapWX({
-        key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
+        key: ''
       })
 
       this.getLocationApi()
@@ -72,8 +73,6 @@
         const {
           data: res
         } = await uni.$http.get('/record/list')
-        
-        console.log(res.data);
 
         if (res.code == 200) {
           let newArr = []
@@ -95,7 +94,7 @@
           this.marker = newArr
         }
       },
-      
+
       //清空搜索框
       close() {
         this.multiFunisShow = !this.multiFunisShow
@@ -103,26 +102,95 @@
         this.keyword = ''
         this.queryLocation = []
       },
-      
-      //获取当前位置信息
+
+      // 获取经纬度
       getLocationApi() {
+        let that = this;
         uni.getLocation({
-          type: 'gcj02', // 标准
-          success: res => {
+          type: "gcj02",
+          altitude: false, // 是否返回高度
+          accuracy: 'best', // 精度值为20m
+          success: (res) => {
+            //授权成功后，调用
+            //console.log(res, "当前位置的经纬度");
             this.latitude = res.latitude
             this.longitude = res.longitude
-            
-            console.log('当前位置经度：' + res.latitude);
-            console.log('当前位置纬度：' + res.longitude);
           },
-          fail: () => {
-            uni.showToast({
-              title: '操作频繁，请稍后重试',
-              icon: 'none'
-            });
-          }
-        })
+          fail(err) {
+            //授权失败后，调用，可以在这儿调用下面的例子 再次进行授权
+
+            if (err.errMsg === 'getLocation:fail auth deny') {
+              // 未授权
+              that.openAuthSetting();
+            }
+
+            if (err.errMsg === 'getLocation:fail:ERROR_NOCELL&WIFI_LOCATIONSWITCHOFF') {
+              uni.showModal({
+                content: '请开启手机定位服务',
+                showCancel: false
+              })
+            }
+
+          },
+        });
       },
+
+      openAuthSetting() {
+        let that = this;
+        uni.getSetting({
+          success: (res) => {
+            if (
+              res.authSetting["scope.userLocation"] != undefined &&
+              res.authSetting["scope.userLocation"] != true
+            ) {
+              uni.showModal({
+                title: "请求授权当前位置",
+                content: "需要获取您的地理位置，请确认授权",
+                success: function(res) {
+                  if (res.cancel) {
+                    uni.showToast({
+                      title: "拒绝授权",
+                      icon: "none"
+                    });
+                  } else if (res.confirm) {
+                    uni.openSetting({
+                      success: function(dataAu) {
+                        if (dataAu.authSetting["scope.userLocation"] == true) {
+                          uni.showToast({
+                            title: "授权成功",
+                            icon: "none"
+                          });
+                          //再次授权，调用wx.getLocation的API
+                          that.getLocationApi();
+                        } else {
+                          uni.showToast({
+                            title: "授权失败",
+                            icon: "none"
+                          });
+                        }
+                      },
+                    });
+                  }
+                },
+              });
+            } else if (res.authSetting["scope.userLocation"] == undefined) {
+              //调用wx.getLocation的API
+              this.getLocation();
+            } else {
+              //调用wx.getLocation的API
+              this.getLocation();
+            }
+          },
+          complete() {
+
+          },
+        });
+      },
+
+
+
+
+
 
       //地图搜索功能
       query() {
@@ -168,7 +236,7 @@
           latitude: this.latitude,
           longitude: this.longitude,
         });
-        
+
         this.getRecordDatas()
       },
 

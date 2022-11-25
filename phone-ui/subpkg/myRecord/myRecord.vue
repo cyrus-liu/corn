@@ -2,8 +2,8 @@
   <view>
     <view class="d-card" v-for="itme in dataList" :key="itme.id" @click="getInfo(itme.id)">
       <view style="display: flex;flex-direction: column; ">
-        <text style="margin-bottom: 10rpx;">取样名称：{{itme.name}}</text>
-        <text style="margin-bottom: 10rpx;">取样时间：{{itme.createTime}}</text>
+        <text style="margin-bottom: 10rpx;">名称：{{itme.name}}</text>
+        <text style="margin-bottom: 10rpx;">时间：{{itme.createTime}}</text>
       </view>
 
       <view v-if="itme.status == '0'"

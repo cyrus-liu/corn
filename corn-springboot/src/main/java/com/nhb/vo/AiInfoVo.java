@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AiInfoVo {
-    private AiResultVo aiResultVo;
+    private Object data;
     private String imgUrl;
 }
