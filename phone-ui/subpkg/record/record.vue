@@ -15,7 +15,7 @@
         <u-alert :title="title" showIcon="true" effect="light" type="warning"></u-alert>
         <u-button type="warning" @click="show = true" :plain="true" size="small" text="查看示例图像"></u-button>
 
-        <u-form-item label="样本">
+        <u-form-item label="图像">
           <u-upload :fileList="fileList1" :sizeType="['compressed']" @afterRead="afterRead" @delete="deletePic" name="1"
             multiple :maxCount="1" width="550rpx" height="350rpx">
           </u-upload>

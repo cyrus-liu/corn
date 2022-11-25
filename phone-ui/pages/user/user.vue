@@ -22,8 +22,8 @@
     <!-- 功能栏 -->
     <view class="d-card">
       <u-cell-group :border="false">
-        <u-cell icon="edit-pen" title="取样标记" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
-        <u-cell icon="order" title="样本记录" @click="goMyRecordPage" isLink :border="false" v-if="token"></u-cell>
+        <u-cell icon="edit-pen" title="花卉识别" @click="goRecordPage" isLink :border="false" v-if="token"></u-cell>
+        <u-cell icon="order" title="我的识别记录" @click="goMyRecordPage" isLink :border="false" v-if="token"></u-cell>
         <u-cell icon="question-circle" title="关于我们" isLink :border="false"></u-cell>
         <u-cell icon="lock-open" title="退出登录" @click="show = true" isLink :border="false" v-if="token"></u-cell>
       </u-cell-group>
@@ -31,13 +31,9 @@
       <u-divider text="大只Web技术支持" textColor="#eeb154"
         lineColor="#eeb154" textSize="28rpx"></u-divider>
       <view style="width: 160rpx; height: 50rpx; margin: 0 auto;">
-        <text>版本号 1.07</text>
+        <text>版本号 1.08</text>
       </view>
     </view>
-
-
-
-
 
 
     <!-- 退出提示框 -->

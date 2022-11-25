@@ -19,7 +19,7 @@
     "pages": [{
         "path": "record/record",
         "style": {
-          "navigationBarTitleText": "取样标记",
+          "navigationBarTitleText": "花卉识别",
           "enablePullDownRefresh": false
         }
       },
@@ -33,7 +33,7 @@
       {
         "path": "myRecord/myRecord",
         "style": {
-          "navigationBarTitleText": "样本记录",
+          "navigationBarTitleText": "我的识别记录",
           "enablePullDownRefresh": false
         }
 

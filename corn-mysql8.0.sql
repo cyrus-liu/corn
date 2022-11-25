@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 20/11/2022 18:45:30
+ Date: 25/11/2022 12:52:50
 */
 
 SET NAMES utf8mb4;
@@ -90,14 +90,12 @@ CREATE TABLE `record` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `del_flag` int DEFAULT '0' COMMENT '删除标志（0代表未删除，1代表已删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='检测记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='检测记录表';
 
 -- ----------------------------
 -- Records of record
 -- ----------------------------
 BEGIN;
-INSERT INTO `record` (`id`, `name`, `img_url`, `remark`, `longitude`, `latitude`, `result_name`, `result_value`, `status`, `create_by`, `create_time`, `del_flag`) VALUES (28, 'css', 'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/images/f5bbef57-5b42-40fa-b76c-31affdf0ad98.jpg', '褐斑病又称立枯丝核疫病 brown spot，主要是由立枯丝核菌引起的一种真菌病害。广泛分布于世界各地，可以侵染所有草坪草，其中尤以冷季型草坪禾草受害最重，造成草坪植株死亡，使草坪形成大面积秃斑，极大地破坏草坪景观。可以侵染所有草坪草，其中尤以冷季型草坪禾草受害最重，造成草坪植株死亡。', '109.44726', '24.28154', '褐斑病', '0.7', '0', 'oG8dg5HAeGxGA8G6Nc4Snmgzne04', '2022-11-13 00:00:00', 1);
-INSERT INTO `record` (`id`, `name`, `img_url`, `remark`, `longitude`, `latitude`, `result_name`, `result_value`, `status`, `create_by`, `create_time`, `del_flag`) VALUES (29, '测试001', 'https://corn-1306784580.cos.ap-guangzhou.myqcloud.com/images/384c7f5f-35e6-472c-a8cb-4bf9f9438701.jpeg', '无', '109.44726', '24.28154', '水稻东格鲁病毒病', '0.95', '0', 'oG8dg5HAeGxGA8G6Nc4Snmgzne04', '2022-11-16 00:00:00', 0);
 COMMIT;
 
 -- ----------------------------
@@ -253,13 +251,12 @@ CREATE TABLE `wx_user` (
   `status` char(1) DEFAULT '0' COMMENT '状态 0正常 1停用',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of wx_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `wx_user` (`id`, `nick_name`, `open_id`, `status`, `create_time`) VALUES (8, '微信用户008', 'oG8dg5HAeGxGA8G6Nc4Snmgzne04', '0', '2022-11-20 18:01:25');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
