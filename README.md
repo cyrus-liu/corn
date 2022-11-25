@@ -129,10 +129,22 @@ uni-app配置这里需要自己申请**腾讯地图账号**和**微信小程序A
 
 
 ## AI部分说明
-
-首先装备数据集，我使用是**花卉数据集**：https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz
-
-把准备好的数据集放在dataset文件夹里目录结构如下：  
+### 开发工具
+| 开发工具      | 说明            |
+|-----------|---------------|
+| Pycharm   | python开发工具    |
+| Xshell 7     | 远程连接工具、文件上传工具 |
+### 环境
+| 开发环境       | 版本    |
+|------------|-------|
+| mininconda | 3.7.5 |
+| tensorflow | 2.7.0 |
+| numpy      |       |
+| Pillow     |       |
+| gevent     |       |
+| requests   |       |
+首先运行`python util.py`生成对应文件夹，然后装备数据集，装备数据集，我使用是[花卉数据集](https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz)  
+ 把准备好的数据集放在dataset文件夹里目录结构如下： 
 
 ```
 dataset_name
@@ -157,7 +169,7 @@ dataset_name
 如果你想用预训练模型进行训练的可以把模型文件放在model文件目录下，  
 然后在train.py文件里models.load_model里输入模型的名字，  
 再把Pre_training改为True就可以了。  
-下载 miniconda：https://docs.conda.io/en/latest/miniconda.html然后安装<font color="#dd0000">注意添加环境变量</font>打开终端输入以下：  
+下载[miniconda](https://docs.conda.io/en/latest/miniconda.html)然后安装<font color="#dd0000">注意添加环境变量</font>打开终端输入以下：  
 
 ```CMD
 # 创建虚拟环境
@@ -176,16 +188,17 @@ pip install -r requirement.txt
 后`tensorboard --logdir=logs` 根据提示输入网址就可以看到过  
 程了  
 
-训练完后会在model目录下有以时间命名的模型文件，打开distinguishapp.py  
-在class_names中添加你自己的标签在load_model读取自己的模型  
+训练完后会在model目录下有以时间命名的模型文件，也可以用我的  
+[模型](https://pan.baidu.com/s/1ltQCTGmYH2Q3E9FsIxtrwg)提取码是：corn把下载好模型放在model目录下打开distinguishapp.py  
+在class_names中添加对应的标签在load_model读取对应的模型  
 运行`python distinguishapp.py`然后在任何浏览器最好是谷歌  
-浏览器输入http://127.0.0.1:8080/classifierhtml
+浏览器输入http://127.0.0.1:8086/classifierhtml
 
 ![](https://nonghb-1306784580.cos.ap-guangzhou.myqcloud.com/uPic/snipaste_20221122_214053.png)
 
 除了可以用网页端看到效果外，也可以通过API来开发你自己的  
 客户端。使用API方式如下：
-http://127.0.0.1:8080/predict/(post请求)
+http://127.0.0.1:8086/predict/(post请求)
 
 ```json
 {
