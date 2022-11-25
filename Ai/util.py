@@ -31,7 +31,7 @@ def np_to_base64(img_np):
 # 检测文件夹是否存在，不存在就创建
 if not os.path.exists('logs'):
     os.mkdir('logs')
-elif not os.path.exists('model'):
+if not os.path.exists('model'):
     os.mkdir('model')
-elif not os.path.exists('dataset'):
+if not os.path.exists('dataset'):
     os.mkdir('dataset')
