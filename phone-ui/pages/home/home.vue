@@ -56,7 +56,7 @@
     onLoad() {
       // 实例化API核心类
       qqmapsdk = new QQMapWX({
-        key: 'APBBZ-OWMW2-FDXUN-CDCI7-H5LIS-EEBNH'
+        key: ''
       })
 
       this.getLocationApi()

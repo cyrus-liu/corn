@@ -34,7 +34,7 @@ img = Image.open(r'C:\Users\Cyrus\Desktop\256.jpg')
 #     f.write(json.dumps(data))
 # fist = time.time()
 # # 向服务端地址 http://0.0.0.0:8080/mobilenet 发送数据
-# r = requests.post('http://127.0.0.1:8080/predict/', data=data)
+# r = requests.post('http://127.0.0.1:8086/predict/', data=data)
 # after = time.time()
 # print('时间',after-fist)
 # # 打印从服务端获得的结果

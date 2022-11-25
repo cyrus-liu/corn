@@ -17,8 +17,8 @@ import {
 
 uni.$http = $http
 // 配置请求根路径
-// $http.baseUrl = 'http://127.0.0.1:8881'
-$http.baseUrl = 'https://www.abinya.top'
+$http.baseUrl = 'http://127.0.0.1:8881'
+// $http.baseUrl = 'https://www.abinya.top'
 
 // 请求开始之前做一些事情
 $http.beforeRequest = function(config) {
